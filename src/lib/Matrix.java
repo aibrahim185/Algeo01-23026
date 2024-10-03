@@ -1,42 +1,54 @@
 public class Matrix {
-    double[][] mtx = null;
-    int rowCnt, colCnt;
+    double[][] val = null;
+    int row, col;
 
     /* *** CONSTRUCTOR *** */
     public Matrix(int x, int y) {
-		mtx = new double[x][y];
-		rowCnt = x;
-		colCnt = y;
+		val = new double[x][y];
+		row = x;
+		col = y;
 	}
 	public Matrix() {
-		mtx = new double[1][1];
-		rowCnt = 1;
-		colCnt = 1;
+		val = new double[1][1];
+		row = 1;
+		col = 1;
 	}
 
     /* *** SELECTOR *** */
     public double getMat(int r, int c) {
-		return mtx[r][c];
+		return val[r][c];
 	}
 	public int getRow() {
-		return rowCnt;
+		return row;
 	}
 	public int getCol() {
-		return colCnt;
+		return col;
 	}
 	
 	public void setMat(int r, int c, double newVal) {
-		mtx[r][c] = newVal;
+		val[r][c] = newVal;
 	}
 	public void setRow(int newVal) {
-		rowCnt = newVal;
+		row = newVal;
 	}
 	public void setCol(int newVal) {
-		colCnt = newVal;
+		col = newVal;
 	}
 
-    /* *** MATRIX PRIMITIVE */
-    // public Matrix mulMatrix(Matrix matrix);
+    /* *** MATRIX PRIMITIVE *** */
+    public Matrix mulMatrix(Matrix m) {
+        /* Mengembalikan hasil perkalian matrix self dengan matrix m */
+        Matrix ret = new Matrix(getRow(), getCol());
+        for (int i = 0; i < ret.getRow(); i++) {
+            for (int j = 0; j < ret.getCol(); j++) {
+                ret.val[i][j] = 0;
+                for (int k = 0; k < getCol(); k++) {
+                    ret.val[i][j] += val[i][k] * m.val[k][j];
+                }
+            }
+        }
+        return  ret;
+    }
 
     // public Matrix mulDouble(double Multiplier);
 
