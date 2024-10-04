@@ -23,13 +23,13 @@ public class Main {
                 }
 
                 switch (menu) {
-                    case 1 -> SPL.driverSPL(sc);
-                    case 2 -> System.out.println("2");
-                    case 3 -> System.out.println("3");
-                    case 4 -> System.out.println("4");
-                    case 5 -> System.out.println("5");
-                    case 6 -> System.out.println("6");
-                    case 7 -> System.out.println("7 bonus");
+                    case 1 -> SPL.driver(sc);
+                    case 2 -> Determinant.driver(sc);
+                    case 3 -> Invers.driver(sc);
+                    case 4 -> Interpolate.driver(sc);
+                    case 5 -> Bicubic.driver(sc);
+                    case 6 -> Regression.driver(sc);
+                    case 7 -> ImageProcessing.driver(sc);
                     case 8 -> System.out.println("See u~");
                 }
             }

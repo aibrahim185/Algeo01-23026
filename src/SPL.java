@@ -2,7 +2,7 @@ import lib.*;
 import java.util.Scanner;
 
 public class SPL {
-    public static void driverSPL(Scanner sc) {
+    public static void driver(Scanner sc) {
         Matrix m = new Matrix(); 
         m.read(sc);
 
