@@ -1,3 +1,4 @@
+package lib;
 import java.util.Scanner;
 
 public class Matrix {
@@ -20,10 +21,12 @@ public class Matrix {
     public void print() {
 		/*	Print matriks */
 		for(int i = 0; i < getRow(); i++) {
+            System.out.print("[ ");
 			for(int j = 0; j < getCol(); j++) {
 				if(j > 0) System.out.print(" ");
 				System.out.printf("%f",getMat(i, j));
 			}
+            System.out.println(" ]");
 		}
 	}
 
@@ -113,9 +116,74 @@ public class Matrix {
 	// public static Matrix zero(int sz);
 
     /* *** OBE *** */
-    // public void swapRow(int row1, int row2)
+    public void swapRow(int row1, int row2) {
+        /* I.S. row1 dan row2 terdefinisi
+         * F.S. row1 dan row2 mempunyai elemen yang telah ditukar
+         */
 
-    // public void divRow(int row1, double divider)
+        for (int i = 0; i < getCol(); i++) {
+            double temp = val[row1][i];
+            val[row1][i] = val[row2][i];
+            val[row2][i] = temp;
+        }
+    }
 
-    // public void addRow(int row, int rowAdder, double multiplier)
+    public void divRow(int dRow, double divider) {
+        /* I.S. dRow dan divider terdefinisi
+         * F.S. seluruh elemen pada baris dRow dibagi dengan divider
+         */
+
+        for (int i = 0; i < getCol(); i++) {
+            val[dRow][i] /= divider;
+        }
+    }
+
+    public void addRow(int aRow, int rowAdder, double multiplier) {
+        /* I.S. aRow, rowAdder, dan multiplier terdefinisi
+         * F.S. seluruh elemen pada baris aRow ditambah dengan multiplier * rowAdder
+         */
+
+        for (int i = 0; i < getCol(); i++) {
+            val[aRow][i] += multiplier * val[rowAdder][i];
+        }
+    }
+
+    /* *** SPL *** */
+    public void gaussElimination() {
+        /* I.S. Matrix terdefinisi
+         * F.s. Matrix menjadi matrix gauss
+         */
+
+        int satuUtama = 0;
+        for (int i = 0; i < getRow(); i++) {
+            if (satuUtama >= getCol()) break;
+
+            // jika elemen pada satuUtama = 0, cari baris lain untuk ditukar
+            if (getMat(i, satuUtama) == 0) {
+                for (int j = i + 1; j < getRow(); j++) {
+                    if (getMat(j, satuUtama) != 0) {
+                        swapRow(i, j);
+                        break;
+                    }
+                }
+            }
+
+            // jika baris untuk ditukar tidak ditemukan, satuUtama bergeser ke kanan
+            if (getMat(i, satuUtama) == 0) {
+                satuUtama++; i--;
+                continue;
+            }
+
+            // membagi semua elemen pada baris supaya elemen pada satuUtama menjadi 1
+            divRow(i, getMat(i, satuUtama));
+
+            // mengurangi semua elemen di bawah satuUtama supaya menjadi 0
+            for (int j = i + 1; j < getRow(); j++){
+                addRow(j, i, -getMat(j, satuUtama));
+            }
+
+            satuUtama++;
+        }
+
+    }
 }

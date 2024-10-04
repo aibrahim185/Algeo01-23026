@@ -2,9 +2,9 @@ import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args){
-        int command = 0;
+        int menu = 0;
         try (Scanner sc = new Scanner(System.in)) {
-            while (command != 8) {
+            while (menu != 8) {
                 System.out.println("\n===== M E N U =====");
                 System.out.println("1. Sistem Persamaan Linier");
                 System.out.println("2. Determinan");
@@ -14,40 +14,23 @@ public class Main {
                 System.out.println("6. Regresi linier dan kuadratik berganda");
                 System.out.println("7. Interpolasi Gambar");
                 System.out.println("8. Keluar");
-                System.out.println("Pilih menu yang tersedia: ");
-                command = sc.nextInt();
+                System.out.print("Pilihan: ");
+                menu = sc.nextInt();
                 
-                while(command < 1 || command > 8){
+                while(menu < 1 || menu > 8){
                     System.out.printf("Masukan tidak valid!\nPilihan: ");
-                    command = sc.nextInt();
+                    menu = sc.nextInt();
                 }
-                
-                switch (command) {
-                    case 1 -> {
-                        SPL.printMetodeSPL();
-                    }
-                    case 2 -> {
-                        System.out.println("2");
-                    }
-                    case 3 -> {
-                        System.out.println("3");
-                    }
-                    case 4 -> {
-                        System.out.println("4");
-                    }
-                    case 5 -> {
-                        System.out.println("5");
-                    }
-                    case 6 -> {
-                        System.out.println("6");
-                    }
-                    case 7 -> {
-                        System.out.println("7");
-                    }
-                    case 8 -> {
-                        System.out.println("See u~");
-                        break;
-                    }
+
+                switch (menu) {
+                    case 1 -> SPL.driverSPL(sc);
+                    case 2 -> System.out.println("2");
+                    case 3 -> System.out.println("3");
+                    case 4 -> System.out.println("4");
+                    case 5 -> System.out.println("5");
+                    case 6 -> System.out.println("6");
+                    case 7 -> System.out.println("7 bonus");
+                    case 8 -> System.out.println("See u~");
                 }
             }
         }
