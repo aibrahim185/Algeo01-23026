@@ -1,3 +1,5 @@
+import java.util.Scanner;
+
 public class Matrix {
     double[][] val = null;
     int row, col;
@@ -14,6 +16,33 @@ public class Matrix {
 		col = 1;
 	}
 
+    /* *** READ/WRITE *** */
+    public void print() {
+		/*	Print matriks */
+		for(int i = 0; i < getRow(); i++) {
+			for(int j = 0; j < getCol(); j++) {
+				if(j > 0) System.out.print(" ");
+				System.out.printf("%f",getMat(i, j));
+			}
+		}
+	}
+
+    public void read(Scanner sc) {
+		/* Membaca cebuah matrikc dari keyboard
+		 * Dimulai dengan membaca jumlah baris dan jumlah kolom
+		 */
+		System.out.print("Jumlah baris: ");
+		row = sc.nextInt();
+		System.out.print("Jumlah kolom: ");
+		col = sc.nextInt();
+		val = new double[row][col];
+		for(int i = 0; i < getRow(); i++) {
+			for(int j = 0; j < getCol(); j++) {
+				val[i][j] = sc.nextDouble();
+			}
+		}
+	}
+    
     /* *** SELECTOR *** */
     public double getMat(int r, int c) {
 		return val[r][c];
@@ -38,7 +67,7 @@ public class Matrix {
     /* *** MATRIX PRIMITIVE *** */
     public Matrix mulMatrix(Matrix m) {
         /* Mengembalikan hasil perkalian matrix self dengan matrix m */
-        Matrix ret = new Matrix(getRow(), getCol());
+        Matrix ret = new Matrix(getRow(), m.getCol());
         for (int i = 0; i < ret.getRow(); i++) {
             for (int j = 0; j < ret.getCol(); j++) {
                 ret.val[i][j] = 0;
@@ -49,10 +78,28 @@ public class Matrix {
         }
         return  ret;
     }
-
-    // public Matrix mulDouble(double Multiplier);
-
-    // public Matrix transpose()
+    
+    public Matrix mulDouble(double multiplier) {
+        /* Mengembalikan hasil perkalian matrix self dengan konstanta multiplier */
+        Matrix ret = this;
+        for (int i = 0; i < getRow(); i++) {
+            for (int j = 0; j < getCol(); j++) {
+                ret.val[i][j] *= multiplier;
+            }
+        }
+        return  ret;
+    }
+    
+    public Matrix transpose(){
+        /* Mengembalikan transpose matrix */
+        Matrix ret = this;
+        for (int i = 0; i < getRow(); i++) {
+            for (int j = 0; j < getCol(); j++) {
+                ret.val[i][j] = val[j][i];
+            }
+        }
+        return  ret;
+    }
 
     // public Matrix cofactor()
 
@@ -71,6 +118,4 @@ public class Matrix {
     // public void divRow(int row1, double divider)
 
     // public void addRow(int row, int rowAdder, double multiplier)
-
-
 }
