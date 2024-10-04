@@ -186,4 +186,30 @@ public class Matrix {
         }
 
     }
+    
+    public void jordanElimination() {
+        /* I.S. Matrix terdefinisi
+         * F.s. Matrix menjadi matrix gauss-jordan
+         */
+        gaussElimination();
+        int satuUtama;
+        for (int i = getRow()-1 ; i > 0 ; i--) {
+            satuUtama = 0;
+            // mencari satuUtama baris i
+            while (getMat(i, satuUtama) == 0) {
+                satuUtama++;
+                if(satuUtama>getCol()-2) break;
+            }
+
+            // untuk baris dengan semua elemen bernilai 0
+            if (satuUtama == getCol()-1) { 
+                continue;
+            }
+
+            // mengurangi semua elemen di atas satuUtama supaya menjadi 0
+            for (int j = i-1 ; j >= 0; j--){
+                addRow(j, i, -getMat(j, satuUtama));
+            }
+        }
+    }
 }

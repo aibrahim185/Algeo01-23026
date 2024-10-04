@@ -16,7 +16,7 @@ public class SPL {
         int metode = sc.nextInt();
         switch (metode) {
             case 1 -> m.gaussElimination();
-            case 2 -> System.out.println("gauss jordan");
+            case 2 -> m.jordanElimination();
             case 3 -> System.out.println("invers");
             case 4 -> System.out.println("Cramer");
         }
