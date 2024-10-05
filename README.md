@@ -24,29 +24,6 @@
    java Main
    ```
 
-## Structure
-
-```bash
-.
-├───README.md
-│
-├───bin
-│   ├───lib
-│   │   ├───Matrix.class
-│   │   └───SPL.class
-│   │
-│   └───Main.class
-│
-├───doc
-│
-└───src
-    ├───lib
-    │   ├───Matrix.java
-    │   └───SPL.java
-    │
-    └───Main.java
-```
-
 ## Built With
 
 - [Java](https://www.java.com/en/)
