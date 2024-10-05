@@ -2,17 +2,17 @@ package lib;
 import java.util.Scanner;
 
 public class Matrix {
-    double[][] val = null;
+    double[][] elmnt = null;
     int row, col;
 
     /* *** CONSTRUCTOR *** */
     public Matrix(int x, int y) {
-		val = new double[x][y];
+		elmnt = new double[x][y];
 		row = x;
 		col = y;
 	}
 	public Matrix() {
-		val = new double[1][1];
+		elmnt = new double[1][1];
 		row = 1;
 		col = 1;
 	}
@@ -38,17 +38,17 @@ public class Matrix {
 		row = sc.nextInt();
 		System.out.print("Jumlah kolom: ");
 		col = sc.nextInt();
-		val = new double[row][col];
+		elmnt = new double[row][col];
 		for(int i = 0; i < getRow(); i++) {
 			for(int j = 0; j < getCol(); j++) {
-				val[i][j] = sc.nextDouble();
+				elmnt[i][j] = sc.nextDouble();
 			}
 		}
 	}
     
     /* *** SELECTOR *** */
     public double getMat(int r, int c) {
-		return val[r][c];
+		return elmnt[r][c];
 	}
 	public int getRow() {
 		return row;
@@ -57,14 +57,14 @@ public class Matrix {
 		return col;
 	}
 	
-	public void setMat(int r, int c, double newVal) {
-		val[r][c] = newVal;
+	public void setMat(int r, int c, double newelmnt) {
+		elmnt[r][c] = newelmnt;
 	}
-	public void setRow(int newVal) {
-		row = newVal;
+	public void setRow(int newelmnt) {
+		row = newelmnt;
 	}
-	public void setCol(int newVal) {
-		col = newVal;
+	public void setCol(int newelmnt) {
+		col = newelmnt;
 	}
 
     /* *** MATRIX PRIMITIVE *** */
@@ -73,9 +73,9 @@ public class Matrix {
         Matrix ret = new Matrix(getRow(), m.getCol());
         for (int i = 0; i < ret.getRow(); i++) {
             for (int j = 0; j < ret.getCol(); j++) {
-                ret.val[i][j] = 0;
+                ret.elmnt[i][j] = 0;
                 for (int k = 0; k < getCol(); k++) {
-                    ret.val[i][j] += val[i][k] * m.val[k][j];
+                    ret.elmnt[i][j] += elmnt[i][k] * m.elmnt[k][j];
                 }
             }
         }
@@ -87,7 +87,7 @@ public class Matrix {
         Matrix ret = this;
         for (int i = 0; i < getRow(); i++) {
             for (int j = 0; j < getCol(); j++) {
-                ret.val[i][j] *= multiplier;
+                ret.elmnt[i][j] *= multiplier;
             }
         }
         return  ret;
@@ -98,7 +98,7 @@ public class Matrix {
         Matrix ret = this;
         for (int i = 0; i < getRow(); i++) {
             for (int j = 0; j < getCol(); j++) {
-                ret.val[i][j] = val[j][i];
+                ret.elmnt[i][j] = elmnt[j][i];
             }
         }
         return  ret;
@@ -122,9 +122,9 @@ public class Matrix {
          */
 
         for (int i = 0; i < getCol(); i++) {
-            double temp = val[row1][i];
-            val[row1][i] = val[row2][i];
-            val[row2][i] = temp;
+            double temp = elmnt[row1][i];
+            elmnt[row1][i] = elmnt[row2][i];
+            elmnt[row2][i] = temp;
         }
     }
 
@@ -134,7 +134,7 @@ public class Matrix {
          */
 
         for (int i = 0; i < getCol(); i++) {
-            val[dRow][i] /= divider;
+            elmnt[dRow][i] /= divider;
         }
     }
 
@@ -144,7 +144,7 @@ public class Matrix {
          */
 
         for (int i = 0; i < getCol(); i++) {
-            val[aRow][i] += multiplier * val[rowAdder][i];
+            elmnt[aRow][i] += multiplier * elmnt[rowAdder][i];
         }
     }
 
@@ -211,5 +211,48 @@ public class Matrix {
                 addRow(j, i, -getMat(j, satuUtama));
             }
         }
+    }
+
+
+    /* *** Determinan *** */
+    public double determinanReduksiBaris() {
+        Matrix temp = new Matrix(getRow(), getCol());
+
+        for (int i = 0; i < getRow(); i++) {
+            for (int j = 0; j < getCol(); j++) {
+                temp.setMat(i, j, getMat(i, j));
+            }
+        }
+
+        double t = 0;
+        for (int i = 0; i < getRow() - 1; i++) {
+            if (getMat(i, 0) == 0) {
+                temp.swapRow(i, i + 1);
+                t += 1;
+            }
+        }
+
+        double p;
+        int x = 0, y = 0;
+        for (int i = 1; i < getRow(); i++) {
+            for (int j = 1; j < (getRow() - i + 1); j++) {
+                p = temp.getMat(j + x, y) / temp.getMat(x, y);
+                boolean b  = (((getMat(j + x, x) >= 0) && (p * getMat(x, x) >= 0)) ||
+                    ((getMat(j + x, x) <= 0) && (p * getMat(x, x) <= 0)));
+                for (int k = 0; k < getCol() - i + 1; k++) {
+                    if (b) {
+                        temp.setMat(j + x, k + x, ((temp.getMat(j + x, k + x)) - (p * (temp.getMat(x, k + x)))));
+                    } else {
+                        temp.setMat(j + x, k + x, ((temp.getMat(j + x, k)) - (p * (temp.getMat(x, k)))));
+                    }
+                }
+            }
+            x++; y++;
+        }
+
+        double z = 1;
+        for (int i = 1; i < getRow(); i++) z *= temp.getMat(i, i);
+        
+        return temp.getMat(0, 0) * z * Math.pow(-1, t);
     }
 }
