@@ -24,7 +24,7 @@ public class Matrix {
             System.out.print("[ ");
 			for(int j = 0; j < getCol(); j++) {
 				if(j > 0) System.out.print(" ");
-				System.out.printf("%f",getMat(i, j));
+				System.out.printf("%.2f",getMat(i, j));
 			}
             System.out.println(" ]");
 		}
@@ -104,7 +104,31 @@ public class Matrix {
         return  ret;
     }
 
-    // public Matrix cofactor()
+    public Matrix cofactor(int p, int q) {
+        int size = getRow();
+        Matrix temp = new Matrix(size - 1, size - 1); 
+
+        int r = 0, c = 0;
+
+        for (int i = 0; i < size; i++) {
+            if (i == p) {
+                continue;  
+            }
+
+            c = 0;
+            for (int j = 0; j < size; j++) {
+                if (j == q) {
+                    continue;  
+                }
+
+                temp.setMat(r, c, getMat(i, j));
+                c++;
+            }
+            r++;
+        }
+
+        return temp;
+    }
 
     // public Matrix adjoin()
 
@@ -255,4 +279,27 @@ public class Matrix {
         
         return temp.getMat(0, 0) * z * Math.pow(-1, t);
     }
+
+    public double determinanEkspansiKofaktor() {
+        double ret = 0;
+        int sign = 1;
+    
+        if (getRow() == 1) {
+            // jika matriks 1x1, determinannya adalah elemen itu sendiri
+            ret = (double) getMat(0, 0);
+        } else {
+            // ekspansi kofaktor untuk matriks berukuran lebih dari 1
+            for (int i = 0; i < getRow(); i++) {
+                // membuat matriks minor
+                Matrix temp = cofactor(0, i);
+    
+                // menambahkan ke hasil determinan
+                ret += sign * getMat(0, i) * temp.determinanEkspansiKofaktor(); 
+                sign *= -1; 
+            }
+        }
+    
+        return ret;
+    }
+    
 }

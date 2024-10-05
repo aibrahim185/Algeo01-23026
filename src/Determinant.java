@@ -14,7 +14,7 @@ public class Determinant {
         int metode = sc.nextInt();
         switch (metode) {
             case 1 -> System.out.println("Determinan = " + m.determinanReduksiBaris());
-            case 2 -> System.out.println("Determinan = ");
+            case 2 -> System.out.println("Determinan = " + m.determinanEkspansiKofaktor());
         }
 
         m.print();
