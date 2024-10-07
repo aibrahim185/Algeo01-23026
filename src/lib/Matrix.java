@@ -108,8 +108,7 @@ public class Matrix {
         int size = getRow();
         Matrix temp = new Matrix(size - 1, size - 1); 
 
-        int r = 0, c = 0;
-
+        int r = 0, c;
         for (int i = 0; i < size; i++) {
             if (i == p) {
                 continue;  
@@ -208,7 +207,6 @@ public class Matrix {
 
             satuUtama++;
         }
-
     }
     
     public void jordanElimination() {
@@ -237,48 +235,51 @@ public class Matrix {
         }
     }
 
+    // public void metodeBalikan()
+
+    // public void kaidahCramer()
 
     /* *** Determinan *** */
     public double determinanReduksiBaris() {
         Matrix temp = new Matrix(getRow(), getCol());
-
+    
+        // copy matrix 
         for (int i = 0; i < getRow(); i++) {
             for (int j = 0; j < getCol(); j++) {
                 temp.setMat(i, j, getMat(i, j));
             }
         }
-
-        double t = 0;
+    
+        // swap baris 
+        double swapCount = 0;
         for (int i = 0; i < getRow() - 1; i++) {
-            if (getMat(i, 0) == 0) {
+            if (temp.getMat(i, 0) == 0) {
                 temp.swapRow(i, i + 1);
-                t += 1;
+                swapCount++;
             }
         }
-
-        double p;
-        int x = 0, y = 0;
-        for (int i = 1; i < getRow(); i++) {
-            for (int j = 1; j < (getRow() - i + 1); j++) {
-                p = temp.getMat(j + x, y) / temp.getMat(x, y);
-                boolean b  = (((getMat(j + x, x) >= 0) && (p * getMat(x, x) >= 0)) ||
-                    ((getMat(j + x, x) <= 0) && (p * getMat(x, x) <= 0)));
-                for (int k = 0; k < getCol() - i + 1; k++) {
-                    if (b) {
-                        temp.setMat(j + x, k + x, ((temp.getMat(j + x, k + x)) - (p * (temp.getMat(x, k + x)))));
-                    } else {
-                        temp.setMat(j + x, k + x, ((temp.getMat(j + x, k)) - (p * (temp.getMat(x, k)))));
-                    }
+    
+        // reduksi baris
+        for (int i = 0; i < getRow() - 1; i++) {
+            for (int j = i + 1; j < getRow(); j++) {
+                double pivot = temp.getMat(i, i);
+                if (pivot == 0) continue;
+    
+                double factor = temp.getMat(j, i) / pivot;
+                for (int k = i; k < getCol(); k++) {
+                    temp.setMat(j, k, temp.getMat(j, k) - factor * temp.getMat(i, k));
                 }
             }
-            x++; y++;
         }
-
-        double z = 1;
-        for (int i = 1; i < getRow(); i++) z *= temp.getMat(i, i);
-        
-        return temp.getMat(0, 0) * z * Math.pow(-1, t);
+    
+        double determinant = 1;
+        for (int i = 0; i < getRow(); i++) {
+            determinant *= temp.getMat(i, i);
+        }
+    
+        return determinant * Math.pow(-1, swapCount);
     }
+    
 
     public double determinanEkspansiKofaktor() {
         double ret = 0;
