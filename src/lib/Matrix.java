@@ -136,9 +136,17 @@ public class Matrix {
             for (int j = 0; j<getCol(); j++){
                 Matrix temp = this.cofactor(i, j);
                 res.elmnt[i][j] = temp.determinanEkspansiKofaktor();
-                if ((i + j) % 2 != 0) {
-                    res.elmnt[i][j] *= -1;
+                if (i%2==0){
+                    if (j%2!=0){
+                        res.elmnt[i][j] *= -1;
+                    }
                 }
+                else{
+                    if (j%2==0){
+                        res.elmnt[i][j] *= -1;
+                    }
+                }
+
             }
         }
         return res;

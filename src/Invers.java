@@ -8,7 +8,9 @@ public class Invers {
         if (m.determinanEkspansiKofaktor()==0){
             System.out.println("Matriks tidak mempunyai matriks balikan");
         }
-        else{m.inverse();}
+        else{
+        m = m.inverse();
+        }
         m.print();
     }
 }
