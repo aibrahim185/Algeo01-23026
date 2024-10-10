@@ -30,7 +30,7 @@ public class Regression {
         // Regresi Kuadratik
         Matrix resKuadratik = regresiKuadratik(X, Y);
         System.out.println("Hasil regresi kuadratik:");
-        resKuadratik.print();;
+        resKuadratik.print();
     }
 
     public static Matrix regresiLinier(Matrix X, Matrix Y) {
