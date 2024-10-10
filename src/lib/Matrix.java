@@ -129,9 +129,42 @@ public class Matrix {
         return temp;
     }
 
-    // public Matrix adjoin()
+    public Matrix MatCof(){
+        /* Mengembalikan matriks kofaktor */
+        Matrix res = new Matrix(getRow(), getCol());
+        for (int i = 0; i<getRow();i++){
+            for (int j = 0; j<getCol(); j++){
+                Matrix temp = this.cofactor(i, j);
+                res.elmnt[i][j] = temp.determinanEkspansiKofaktor();
+                if (i%2==0){
+                    if (j%2!=0){
+                        res.elmnt[i][j] *= -1;
+                    }
+                }
+                else{
+                    if (j%2==0){
+                        res.elmnt[i][j] *= -1;
+                    }
+                }
 
-    // public Matrix inverse()
+            }
+        }
+        return res;
+    }
+
+    public Matrix adjoin() {
+        Matrix temp = this.MatCof();
+        temp.transpose();
+        return temp;
+    }
+
+    public Matrix inverse() {
+        /* mengembalikkan matriks invers */
+        double det = determinanEkspansiKofaktor();
+        Matrix temp = new Matrix(getRow(), getCol());
+        temp = adjoin().mulDouble(1/det);
+        return temp;
+    }
 
     /* *** COMMON MATRIX */
     // public static Matrix one(int sz);
