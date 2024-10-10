@@ -34,7 +34,7 @@ public class Interpolate {
         Matrix Xt = X.transpose();
         Matrix XtX = Xt.mulMatrix(X);
         Matrix XtY = Xt.mulMatrix(YV);
-        Matrix B = XtX.invers().mulMatrix(XtY);
+        Matrix B = XtX.inverse().mulMatrix(XtY);
         return B;
     }
 }

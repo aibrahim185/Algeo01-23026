@@ -161,8 +161,7 @@ public class Matrix {
     public Matrix inverse() {
         /* mengembalikkan matriks invers */
         double det = determinanEkspansiKofaktor();
-        Matrix temp = new Matrix(getRow(), getCol());
-        temp = adjoin().mulDouble(1/det);
+        Matrix temp = adjoin().mulDouble(1/det);
         return temp;
     }
 
