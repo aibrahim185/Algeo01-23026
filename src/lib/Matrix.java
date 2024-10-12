@@ -295,7 +295,7 @@ public class Matrix {
         // Menyimpan matriks b
         Matrix matB = new Matrix(getRow(), 1);
         for (int i = 0; i<getRow();i++){
-            matB.setMat(i, 0, getMat(i, 0));
+            matB.setMat(i, 0, getMat(i, getCol()-1));
         }
 
         // Membuat matriks baru tanpa b
@@ -317,9 +317,8 @@ public class Matrix {
         for (int i = getRow() - 1 ; i > 0 ; i--) {
             satuUtama = 0;
             // mencari satuUtama baris i
-            while (matGabung.getMat(i, satuUtama) == 0 && satuUtama < getCol()) {
+            while (matGabung.getMat(i, satuUtama) == 0 && satuUtama < getCol()-1) {
                 satuUtama++;
-                if(satuUtama>(matGabung.getCol())/2-1) break;
             }
 
             // untuk baris dengan semua elemen bernilai 0
@@ -336,7 +335,7 @@ public class Matrix {
         // masukkan matriks invers dari matGabung ke matTanpaB
         for (int i = 0; i<matTanpaB.getRow();i++){
             for (int j = 0; j<matTanpaB.getCol();j++){
-                matTanpaB.setMat(i, j, matGabung.getMat(i, getCol()+j));
+                matTanpaB.setMat(i, j, matGabung.getMat(i, getCol()+j-1));
             }
         }
 
