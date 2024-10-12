@@ -95,7 +95,7 @@ public class Matrix {
     
     public Matrix transpose(){
         /* Mengembalikan transpose matrix */
-        Matrix ret = this;
+        Matrix ret = new Matrix(getCol(),getRow());
         for (int i = 0; i < getRow(); i++) {
             for (int j = 0; j < getCol(); j++) {
                 ret.elmnt[i][j] = elmnt[j][i];
@@ -131,37 +131,35 @@ public class Matrix {
 
     public Matrix MatCof(){
         /* Mengembalikan matriks kofaktor */
-        Matrix res = new Matrix(getRow(), getCol());
+        Matrix ret = new Matrix(getRow(), getCol());
         for (int i = 0; i<getRow();i++){
             for (int j = 0; j<getCol(); j++){
                 Matrix temp = this.cofactor(i, j);
-                res.elmnt[i][j] = temp.determinanEkspansiKofaktor();
+                ret.elmnt[i][j] = temp.determinanReduksiBaris();
                 if (i%2==0){
                     if (j%2!=0){
-                        res.elmnt[i][j] *= -1;
+                        ret.elmnt[i][j] *= -1;
                     }
                 }
                 else{
                     if (j%2==0){
-                        res.elmnt[i][j] *= -1;
+                        ret.elmnt[i][j] *= -1;
                     }
                 }
 
             }
         }
-        return res;
+        return ret;
     }
 
     public Matrix adjoin() {
-        Matrix temp = this.MatCof();
-        temp.transpose();
+        Matrix temp = MatCof().transpose();
         return temp;
     }
 
     public Matrix inverse() {
         /* mengembalikkan matriks invers dengan Matriks Adjoin*/
-        double det = determinanEkspansiKofaktor();
-        Matrix temp = adjoin().mulDouble(1/det);
+        Matrix temp = adjoin().mulDouble(1/determinanReduksiBaris());
         return temp;
     }
 
@@ -321,7 +319,6 @@ public class Matrix {
                 matGabung.setMat(i, j+getCol(), matIden.getMat(i, j));
             }
         }
-
         // OBE matGabung
         matGabung.gaussElimination();
         // copas jordan dan ganti batas iterasinya

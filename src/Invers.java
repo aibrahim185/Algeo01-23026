@@ -9,13 +9,14 @@ public class Invers {
             System.out.println("Matriks tidak mempunyai matriks balikan");
         }
         else{
-        System.out.println("Hasil Matriks Balikan dengan Matriks Adjoin");
-        m = m.inverse();
-        m.print();
-        System.out.println("\n");
-        System.out.println("Hasil Matriks Balikan dengan OBE");
-        m.matBalikan();
-        m.print();
+            Matrix temp = m;
+            System.out.println("Hasil Matriks Balikan dengan Matriks Adjoin");
+            temp = m.inverse();
+            temp.print();
+            System.out.println("\n");
+            System.out.println("Hasil Matriks Balikan dengan OBE");
+            m.matBalikan();
+            m.print();
         }
     }
 }
