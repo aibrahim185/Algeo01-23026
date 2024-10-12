@@ -155,7 +155,7 @@ public class Matrix {
     
     public Matrix transpose(){
         /* Mengembalikan transpose matrix */
-        Matrix ret = this;
+        Matrix ret = new Matrix(getCol(),getRow());
         for (int i = 0; i < getRow(); i++) {
             for (int j = 0; j < getCol(); j++) {
                 ret.elmnt[i][j] = elmnt[j][i];
@@ -191,37 +191,35 @@ public class Matrix {
 
     public Matrix MatCof(){
         /* Mengembalikan matriks kofaktor */
-        Matrix res = new Matrix(getRow(), getCol());
+        Matrix ret = new Matrix(getRow(), getCol());
         for (int i = 0; i<getRow();i++){
             for (int j = 0; j<getCol(); j++){
                 Matrix temp = this.cofactor(i, j);
-                res.elmnt[i][j] = temp.determinanEkspansiKofaktor();
+                ret.elmnt[i][j] = temp.determinanReduksiBaris();
                 if (i%2==0){
                     if (j%2!=0){
-                        res.elmnt[i][j] *= -1;
+                        ret.elmnt[i][j] *= -1;
                     }
                 }
                 else{
                     if (j%2==0){
-                        res.elmnt[i][j] *= -1;
+                        ret.elmnt[i][j] *= -1;
                     }
                 }
 
             }
         }
-        return res;
+        return ret;
     }
 
     public Matrix adjoin() {
-        Matrix temp = this.MatCof();
-        temp.transpose();
+        Matrix temp = MatCof().transpose();
         return temp;
     }
 
     public Matrix inverse() {
         /* mengembalikkan matriks invers dengan Matriks Adjoin*/
-        double det = determinanEkspansiKofaktor();
-        Matrix temp = adjoin().mulDouble(1/det);
+        Matrix temp = adjoin().mulDouble(1/determinanReduksiBaris());
         return temp;
     }
 
@@ -240,6 +238,28 @@ public class Matrix {
                     ret.setMat(i, j, 0);
                 }
             }
+        }
+        return ret;
+    }
+
+    public Matrix matTanpaB(){
+        /* I.S. Matriks augmented terdefinisi
+         * F.S. Mengembalikkan matriks tanpa b
+         */
+
+        Matrix ret = new Matrix(getRow(), getCol()-1);
+        for (int i = 0; i <getRow();i++){
+            for (int j = 0; j<getCol()-1;j++){
+                ret.setMat(i, j, getMat(i, j));
+            }
+        } 
+        return ret;
+    }
+
+    public Matrix matB(){
+        Matrix ret = new Matrix(getRow(), 1);
+        for (int i = 0; i<getRow();i++){
+            ret.setMat(i, 0, getMat(i, getCol()-1));
         }
         return ret;
     }
@@ -342,31 +362,23 @@ public class Matrix {
         }
     }
 
-    // ini buat yg SPL. jd akhirnya nanti matriks invers kali dengan b
-    public Matrix metodeBalikan(){
-        /* I.S. Matriks terdefinisi
+    public void matBalikan(){
+        /* Mencari matriks balikan dengan menggunakan OBE
+         * I.S. Matriks nxn terdefinisi 
          * F.s. Matriks menjadi matriks balikan
-         * Menggunakan OBE Gauss Jordan
          */
 
         // Membuat matriks identitas
         Matrix matIden = idenMatrix(getRow());
 
-        // Menyimpan matriks b
-        Matrix matB = matB();
-
-        // Membuat matriks baru tanpa b
-        Matrix matTanpaB = matTanpaB();
-
-        // Gabungan matTanpaB dan matIden
-        Matrix matGabung = new Matrix(getRow(), (getCol()-1)*2);
+        // Gabungan ret dan matIden
+        Matrix matGabung = new Matrix(getRow(), getCol()*2);
         for (int i = 0; i < getRow();i++){
-            for (int j = 0;j<getCol()-1;j++){
-                matGabung.setMat(i, j, matTanpaB.getMat(i, j)); 
-                matGabung.setMat(i, j+getCol()-1, matIden.getMat(i, j));
+            for (int j = 0;j<getCol();j++){
+                matGabung.setMat(i, j, getMat(i, j)); 
+                matGabung.setMat(i, j+getCol(), matIden.getMat(i, j));
             }
         }
-
         // OBE matGabung
         matGabung.gaussElimination();
         // copas jordan dan ganti batas iterasinya
@@ -374,7 +386,7 @@ public class Matrix {
         for (int i = getRow() - 1 ; i > 0 ; i--) {
             satuUtama = 0;
             // mencari satuUtama baris i
-            while (matGabung.getMat(i, satuUtama) == 0 && satuUtama < getCol()-1) {
+            while (matGabung.getMat(i, satuUtama) == 0 && satuUtama < getCol()) {
                 satuUtama++;
             }
 
@@ -389,39 +401,28 @@ public class Matrix {
             }
         }
 
-        // masukkan matriks invers dari matGabung ke matTanpaB
-        for (int i = 0; i<matTanpaB.getRow();i++){
-            for (int j = 0; j<matTanpaB.getCol();j++){
-                matTanpaB.setMat(i, j, matGabung.getMat(i, getCol()+j-1));
+        // masukkan matriks invers dari matGabung ke ret
+        for (int i = 0; i<getRow();i++){
+            for (int j = 0; j<getCol();j++){
+                setMat(i, j, matGabung.getMat(i, getCol()+j));
             }
         }
-
-        // menemukan hasil SPL
-        matTanpaB = matTanpaB.mulMatrix(matB);
-        return matTanpaB;
     }
 
-    public Matrix matTanpaB(){
-        /* I.S. Matriks augmented terdefinisi
-         * F.S. Mengembalikkan matriks tanpa b
+    public Matrix metodeBalikan(){
+        /* I.S. Matriks terdefinisi
+         * F.s. Matriks solusi SPL dengan OBE
          */
 
-        Matrix ret = new Matrix(getRow(), getCol()-1);
-        for (int i = 0; i <getRow();i++){
-            for (int j = 0; j<getCol()-1;j++){
-                ret.setMat(i, j, getMat(i, j));
-            }
-        } 
+        Matrix matB = matB();
+        Matrix ret = matTanpaB();
+        ret.matBalikan();
+        
+        // menghasilkan solusi SPL
+        ret = ret.mulMatrix(matB);
         return ret;
     }
 
-    public Matrix matB(){
-        Matrix ret = new Matrix(getRow(), 1);
-        for (int i = 0; i<getRow();i++){
-            ret.setMat(i, 0, getMat(i, getCol()-1));
-        }
-        return ret;
-    }
 
     public Matrix kaidahCramer(){
         /* I.S. matriks augmented terdefinisi
