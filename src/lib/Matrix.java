@@ -161,8 +161,7 @@ public class Matrix {
     public Matrix inverse() {
         /* mengembalikkan matriks invers dengan Matriks Adjoin*/
         double det = determinanEkspansiKofaktor();
-        Matrix temp = new Matrix(getRow(), getCol());
-        temp = adjoin().mulDouble(1/det);
+        Matrix temp = adjoin().mulDouble(1/det);
         return temp;
     }
 
@@ -177,6 +176,8 @@ public class Matrix {
             for (int j=0;j<r;j++){
                 if (i==j){
                     ret.setMat(i, j, 1);
+                } else {
+                    ret.setMat(i, j, 0);
                 }
             }
         }
@@ -289,8 +290,7 @@ public class Matrix {
          */
 
         // Membuat matriks identitas
-        Matrix matIden = new Matrix(getRow(),getRow());
-        matIden = idenMatrix(getRow());
+        Matrix matIden = idenMatrix(getRow());
 
         // Menyimpan matriks b
         Matrix matB = new Matrix(getRow(), 1);
@@ -302,7 +302,7 @@ public class Matrix {
         Matrix matTanpaB = matTanpaB();
 
         // Gabungan matTanpaB dan matIden
-        Matrix matGabung = new Matrix(getRow(), (getCol()-1)*2);
+        Matrix matGabung = new Matrix(getRow(), getCol()*2);
         for (int i = 0; i < getRow();i++){
             for (int j = 0;j<getCol()-1;j++){
                 matGabung.setMat(i, j, matTanpaB.getMat(i, j)); //apalah ini Index 3 out of bounds for length 3
@@ -314,10 +314,11 @@ public class Matrix {
         matGabung.gaussElimination();
         // copas jordan dan ganti batas iterasinya
         int satuUtama;
-        for (int i = getRow() ; i > 0 ; i--) {
+        for (int i = getRow() - 1 ; i > 0 ; i--) {
             satuUtama = 0;
             // mencari satuUtama baris i
-            while (matGabung.getMat(i, satuUtama) == 0) {
+            System.out.println(satuUtama);
+            while (matGabung.getMat(i, satuUtama) == 0 && satuUtama < getCol()) {
                 satuUtama++;
                 if(satuUtama>(matGabung.getCol())/2-1) break;
             }
@@ -342,6 +343,7 @@ public class Matrix {
 
         // menemukan hasil SPL
         matTanpaB = matTanpaB.mulMatrix(matB);
+        matTanpaB.print();
         return matTanpaB;
     }
 
