@@ -44,7 +44,8 @@ public class Bicubic {
             }
         }
         ret.print();
-        return ret.inverse();
+        ret.matBalikan();
+        return ret;
     }    
     
     public static void bicubicInterpolation(Matrix f, double tx, double ty) {

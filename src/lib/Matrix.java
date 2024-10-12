@@ -72,7 +72,7 @@ public class Matrix {
                     fileName = scFile.readLine();
                 }
                 catch(IOException err){
-                    err.printStackTrace();
+                    // err.printStackTrace();
                 }
                 try{
                     Scanner file = new Scanner(new File("../test/"+fileName));
@@ -99,7 +99,7 @@ public class Matrix {
                     file.close();
                 }
                 catch(FileNotFoundException err){
-                    err.printStackTrace();
+                    // err.printStackTrace();
                     found = false;
                 }
             }
