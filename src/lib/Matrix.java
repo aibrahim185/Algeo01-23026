@@ -159,16 +159,30 @@ public class Matrix {
     }
 
     public Matrix inverse() {
-        /* mengembalikkan matriks invers */
+        /* mengembalikkan matriks invers dengan Matriks Adjoin*/
         double det = determinanEkspansiKofaktor();
-        Matrix temp = adjoin().mulDouble(1/det);
+        Matrix temp = new Matrix(getRow(), getCol());
+        temp = adjoin().mulDouble(1/det);
         return temp;
     }
 
     /* *** COMMON MATRIX */
-    // public static Matrix one(int sz);
-	
-	// public static Matrix zero(int sz);
+    public Matrix idenMatrix(int r){
+        /* I.S. Matriks tidak terdefinisi
+         * F.S Matriks menjadi matriks identitas
+         */
+
+        Matrix ret = new Matrix(r, r);
+        for (int i=0;i<r;i++){
+            for (int j=0;j<r;j++){
+                if (i==j){
+                    ret.setMat(i, j, 1);
+                }
+            }
+        }
+        return ret;
+    }
+    
 
     /* *** OBE *** */
     public void swapRow(int row1, int row2) {
@@ -267,9 +281,111 @@ public class Matrix {
         }
     }
 
-    // public void metodeBalikan()
+    // ini buat yg SPL. jd akhirnya nanti matriks invers kali dengan b
+    public Matrix metodeBalikan(){
+        /* I.S. Matriks terdefinisi
+         * F.s. Matriks menjadi matriks balikan
+         * Menggunakan OBE Gauss Jordan
+         */
 
-    // public void kaidahCramer()
+        // Membuat matriks identitas
+        Matrix matIden = new Matrix(getRow(),getRow());
+        matIden = idenMatrix(getRow());
+
+        // Menyimpan matriks b
+        Matrix matB = new Matrix(getRow(), 1);
+        for (int i = 0; i<getRow();i++){
+            matB.setMat(i, 0, getMat(i, 0));
+        }
+
+        // Membuat matriks baru tanpa b
+        Matrix matTanpaB = matTanpaB();
+
+        // Gabungan matTanpaB dan matIden
+        Matrix matGabung = new Matrix(getRow(), (getCol()-1)*2);
+        for (int i = 0; i < getRow();i++){
+            for (int j = 0;j<getCol()-1;j++){
+                matGabung.setMat(i, j, matTanpaB.getMat(i, j)); //apalah ini Index 3 out of bounds for length 3
+                matGabung.setMat(i, j+getCol()-1, matIden.getMat(i, j));
+            }
+        }
+
+        // OBE matGabung
+        matGabung.gaussElimination();
+        // copas jordan dan ganti batas iterasinya
+        int satuUtama;
+        for (int i = getRow() ; i > 0 ; i--) {
+            satuUtama = 0;
+            // mencari satuUtama baris i
+            while (matGabung.getMat(i, satuUtama) == 0) {
+                satuUtama++;
+                if(satuUtama>(matGabung.getCol())/2-1) break;
+            }
+
+            // untuk baris dengan semua elemen bernilai 0
+            if (satuUtama == matGabung.getCol()/2) { 
+                continue;
+            }
+
+            // mengurangi semua elemen di atas satuUtama supaya menjadi 0
+            for (int j = i-1 ; j >= 0; j--){
+                matGabung.addRow(j, i, -matGabung.getMat(j, satuUtama));
+            }
+        }
+
+        // masukkan matriks invers dari matGabung ke matTanpaB
+        for (int i = 0; i<matTanpaB.getRow();i++){
+            for (int j = 0; j<matTanpaB.getCol();j++){
+                matTanpaB.setMat(i, j, matGabung.getMat(i, getCol()+j));
+            }
+        }
+
+        // menemukan hasil SPL
+        matTanpaB = matTanpaB.mulMatrix(matB);
+        return matTanpaB;
+    }
+
+    public Matrix matTanpaB(){
+        /* I.S. Matriks augmented terdefinisi
+         * F.S. Mengembalikkan matriks tanpa b
+         */
+
+        Matrix ret = new Matrix(getRow(), getCol()-1);
+        for (int i = 0; i <getRow();i++){
+            for (int j = 0; j<getCol()-1;j++){
+                ret.setMat(i, j, getMat(i, j));
+            }
+        } 
+        return ret;
+    }
+
+    public Matrix kaidahCramer(){
+        /* I.S. matriks augmented terdefinisi
+         * F.F. Solusi SPL dengan kaidah Cramer
+         */
+
+        // Menyimpan matriks b
+        Matrix matB = new Matrix(getRow(), 1);
+        for (int i = 0; i<getRow();i++){
+            matB.setMat(i, 0, getMat(i, 0));
+        }
+
+        Matrix temp = matTanpaB();
+        double det = temp.determinanEkspansiKofaktor();
+        Matrix x = new Matrix(getRow(), 1);
+
+        // mengganti kolom matriks temp dengan matB
+        for (int i = 0; i<getRow(); i++){
+            for (int j = 0; j < getCol()-1; j++){
+                temp.setMat(i, j, getMat(i, j));
+            }
+            // mencari determinan dan menyimpan di matriks (getRow(), 1)
+            x.setMat(i, 0, temp.determinanEkspansiKofaktor());
+            x = x.mulDouble(1/det);
+            temp = matTanpaB();
+        }
+        return x;
+    }
 
     /* *** Determinan *** */
     public double determinanReduksiBaris() {
