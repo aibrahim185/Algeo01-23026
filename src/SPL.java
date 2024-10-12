@@ -17,8 +17,8 @@ public class SPL {
         switch (metode) {
             case 1 -> m.gaussElimination();
             case 2 -> m.jordanElimination();
-            case 3 -> m.metodeBalikan();
-            case 4 -> m.kaidahCramer();
+            case 3 -> m = m.metodeBalikan();
+            case 4 -> m = m.kaidahCramer();
         }
 
         m.print();

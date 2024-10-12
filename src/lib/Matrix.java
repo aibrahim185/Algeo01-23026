@@ -302,10 +302,10 @@ public class Matrix {
         Matrix matTanpaB = matTanpaB();
 
         // Gabungan matTanpaB dan matIden
-        Matrix matGabung = new Matrix(getRow(), getCol()*2);
+        Matrix matGabung = new Matrix(getRow(), (getCol()-1)*2);
         for (int i = 0; i < getRow();i++){
             for (int j = 0;j<getCol()-1;j++){
-                matGabung.setMat(i, j, matTanpaB.getMat(i, j)); //apalah ini Index 3 out of bounds for length 3
+                matGabung.setMat(i, j, matTanpaB.getMat(i, j)); 
                 matGabung.setMat(i, j+getCol()-1, matIden.getMat(i, j));
             }
         }
@@ -317,7 +317,6 @@ public class Matrix {
         for (int i = getRow() - 1 ; i > 0 ; i--) {
             satuUtama = 0;
             // mencari satuUtama baris i
-            System.out.println(satuUtama);
             while (matGabung.getMat(i, satuUtama) == 0 && satuUtama < getCol()) {
                 satuUtama++;
                 if(satuUtama>(matGabung.getCol())/2-1) break;
@@ -343,7 +342,6 @@ public class Matrix {
 
         // menemukan hasil SPL
         matTanpaB = matTanpaB.mulMatrix(matB);
-        matTanpaB.print();
         return matTanpaB;
     }
 
@@ -369,22 +367,22 @@ public class Matrix {
         // Menyimpan matriks b
         Matrix matB = new Matrix(getRow(), 1);
         for (int i = 0; i<getRow();i++){
-            matB.setMat(i, 0, getMat(i, 0));
+            matB.setMat(i, 0, getMat(i, getCol()-1));
         }
 
         Matrix temp = matTanpaB();
         double det = temp.determinanEkspansiKofaktor();
-        Matrix x = new Matrix(getRow(), 1);
+        Matrix x = new Matrix(getRow(), 1); // matriks solusi
 
         // mengganti kolom matriks temp dengan matB
-        for (int i = 0; i<getRow(); i++){
-            for (int j = 0; j < getCol()-1; j++){
-                temp.setMat(i, j, getMat(i, j));
+        for (int i = 0; i<getCol()-1; i++){
+            for (int j = 0; j < getRow(); j++){
+                temp.setMat(j, i, matB.getMat(i, 0));
             }
-            // mencari determinan dan menyimpan di matriks (getRow(), 1)
+            // mencari determinan dan menyimpan di matriks x
             x.setMat(i, 0, temp.determinanEkspansiKofaktor());
             x = x.mulDouble(1/det);
-            temp = matTanpaB();
+            temp = matTanpaB(); // reset temp
         }
         return x;
     }
