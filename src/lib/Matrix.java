@@ -1,4 +1,9 @@
 package lib;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.Scanner;
 
 public class Matrix {
@@ -45,6 +50,61 @@ public class Matrix {
 			}
 		}
 	}
+    public void readFile(){
+        Scanner sc = new Scanner(System.in);
+        BufferedReader scFile = new BufferedReader(new InputStreamReader(System.in));
+        System.out.printf("1. Masukan dari keyboard\n2. Masukan dari file\nPilihan: ");
+        int choice = sc.nextInt();
+        while(choice != 1 && choice != 2){
+            System.out.printf("Masukan tidak valid! Silakan ulangi...\n");
+            choice = sc.nextInt();
+        }
+        if(choice == 1){
+            read(sc);
+        }
+        else{
+            Boolean found = false;
+            while(!found){
+                found = true;
+                String fileName = "";
+                System.out.printf("Masukkan nama file: ");
+                try{
+                    fileName = scFile.readLine();
+                }
+                catch(IOException err){
+                    err.printStackTrace();
+                }
+                try{
+                    Scanner file = new Scanner(new File("../test/"+fileName));
+                    Integer n = 0, m = 0;
+                    while(file.hasNextLine()){
+                        n++;
+                        m = file.nextLine().split(" ").length;
+                        
+                    }
+                    file.close();
+                    // System.out.println(n + " " + m);
+
+                    elmnt = new double[n][m];
+                    col = m;
+                    row = n;
+                    file = new Scanner(new File("../test/"+fileName));
+                    for(int i = 0; i < n; i++){
+                        for(int j = 0; j < m; j++){
+                            // System.out.println(file.nextDouble());
+                            double x = file.nextDouble();
+                            elmnt[i][j] = x;
+                        }
+                    }
+                    file.close();
+                }
+                catch(FileNotFoundException err){
+                    err.printStackTrace();
+                    found = false;
+                }
+            }
+        }
+    }
     
     /* *** SELECTOR *** */
     public double getMat(int r, int c) {
