@@ -293,10 +293,7 @@ public class Matrix {
         Matrix matIden = idenMatrix(getRow());
 
         // Menyimpan matriks b
-        Matrix matB = new Matrix(getRow(), 1);
-        for (int i = 0; i<getRow();i++){
-            matB.setMat(i, 0, getMat(i, getCol()-1));
-        }
+        Matrix matB = matB();
 
         // Membuat matriks baru tanpa b
         Matrix matTanpaB = matTanpaB();
@@ -358,31 +355,36 @@ public class Matrix {
         return ret;
     }
 
+    public Matrix matB(){
+        Matrix ret = new Matrix(getRow(), 1);
+        for (int i = 0; i<getRow();i++){
+            ret.setMat(i, 0, getMat(i, getCol()-1));
+        }
+        return ret;
+    }
+
     public Matrix kaidahCramer(){
         /* I.S. matriks augmented terdefinisi
          * F.F. Solusi SPL dengan kaidah Cramer
          */
 
-        // Menyimpan matriks b
-        Matrix matB = new Matrix(getRow(), 1);
-        for (int i = 0; i<getRow();i++){
-            matB.setMat(i, 0, getMat(i, getCol()-1));
-        }
-
+        // Menyimpan matriks b dan matriks tanpa b
+        Matrix matB = matB();
         Matrix temp = matTanpaB();
-        double det = temp.determinanEkspansiKofaktor();
         Matrix x = new Matrix(getRow(), 1); // matriks solusi
 
         // mengganti kolom matriks temp dengan matB
         for (int i = 0; i<getCol()-1; i++){
             for (int j = 0; j < getRow(); j++){
-                temp.setMat(j, i, matB.getMat(i, 0));
+                temp.setMat(j, i, matB.getMat(j, 0));
             }
             // mencari determinan dan menyimpan di matriks x
             x.setMat(i, 0, temp.determinanEkspansiKofaktor());
-            x = x.mulDouble(1/det);
-            temp = matTanpaB(); // reset temp
+            // reset temp
+            temp = matTanpaB();
         }
+        // membagi dengan determinan matriks awal
+        x = x.mulDouble(1/matTanpaB().determinanEkspansiKofaktor());
         return x;
     }
 
