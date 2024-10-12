@@ -15,7 +15,7 @@ public class SPL {
         int metode = sc.nextInt();
         switch (metode) {
             case 1 -> m.gaussElimination();
-            case 2 -> m.jordanElimination();
+            case 2 -> m.gaussJordanSolution();
             case 3 -> m = m.metodeBalikan();
             case 4 -> m = m.kaidahCramer();
         }
