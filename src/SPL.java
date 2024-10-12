@@ -16,8 +16,8 @@ public class SPL {
         switch (metode) {
             case 1 -> m.gaussElimination();
             case 2 -> m.jordanElimination();
-            case 3 -> System.out.println("invers");
-            case 4 -> System.out.println("Cramer");
+            case 3 -> m = m.metodeBalikan();
+            case 4 -> m = m.kaidahCramer();
         }
 
         m.print();
