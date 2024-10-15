@@ -493,23 +493,26 @@ public class Matrix {
 
     public double determinanEkspansiKofaktor() {
         double ret = 0;
-        int sign = 1;
-    
         if (getRow() == 1) {
             // jika matriks 1x1, determinannya adalah elemen itu sendiri
             ret = (double) getMat(0, 0);
         } else {
             // ekspansi kofaktor untuk matriks berukuran lebih dari 1
             for (int i = 0; i < getRow(); i++) {
-                // membuat matriks minor
-                Matrix temp = cofactor(0, i);
-    
-                // menambahkan ke hasil determinan
-                ret += sign * getMat(0, i) * temp.determinanEkspansiKofaktor(); 
-                sign *= -1; 
+                if(getMat(i, 0) != 0){
+                    // membuat 0 di kolom pertama selain elmnt(i,0)
+                    for(int j = i+1; j < getRow(); j++){
+                        addRow(j, i, -getMat(j, 0)/getMat(i,0));
+                    }
+                    // membuat matriks minor
+                    Matrix temp = cofactor(i,0);
+                    // menambahkan ke hasil determinan
+                    int sign = i%2==0 ? 1 : -1;
+                    ret += sign * getMat(0, i) * temp.determinanEkspansiKofaktor(); //rekursi sampai getRow() = 1;
+                    break;
+                }
             }
         }
-    
         return ret;
     }
     
