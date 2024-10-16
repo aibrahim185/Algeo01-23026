@@ -6,16 +6,19 @@ public class Invers {
         Matrix m = new Matrix();
         m.read(sc);
         if (m.determinanEkspansiKofaktor()==0){
-            System.out.println("Matriks tidak mempunyai matriks balikan");
+            System.out.println("Matriks tidak mempunyai matriks balikan karena determinan matriks adalah 0");
         }
         else{
-            Matrix temp = m;
-            System.out.println("Hasil Matriks Balikan dengan Matriks Adjoin");
-            temp = m.inverse();
-            temp.print();
-            System.out.println("\n");
-            System.out.println("Hasil Matriks Balikan dengan OBE");
-            m.matBalikan();
+            System.out.println("\n1. Metode OBE");
+            System.out.println("2. Metode Matriks Adjoin");
+            System.out.println("3. Kembali");
+            System.out.print("Pilihan: ");
+            
+            int metode = sc.nextInt();
+            switch (metode){
+                case 1 -> m = m.inverse();
+                case 2 -> m.matBalikan();
+            }
             m.print();
         }
     }
