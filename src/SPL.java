@@ -1,11 +1,10 @@
-import lib.*;
 import java.util.Scanner;
+import lib.*;
 
 public class SPL {
     public static void driver(Scanner sc) {
         Matrix m = new Matrix(); 
-        m.read(sc);
-
+        m.readFile();
 		System.out.println("\n1. Metode eliminasi Gauss");
 		System.out.println("2. Metode eliminasi Gauss-Jordan");
 		System.out.println("3. Metode Matriks Balikan");
