@@ -156,8 +156,8 @@ public class Matrix {
     public Matrix transpose(){
         /* Mengembalikan transpose matrix */
         Matrix ret = new Matrix(getCol(),getRow());
-        for (int i = 0; i < getRow(); i++) {
-            for (int j = 0; j < getCol(); j++) {
+        for (int i = 0; i < ret.getRow(); i++) {
+            for (int j = 0; j < ret.getCol(); j++) {
                 ret.elmnt[i][j] = elmnt[j][i];
             }
         }
@@ -588,5 +588,20 @@ public class Matrix {
                 System.out.printf("x%d = %c\n", i+1, parametric[i]);
             }
         }
+    }
+
+    public Matrix concat(Matrix X) {
+        Matrix ret = new Matrix(getRow(), X.getCol() + getCol());
+        for (int i = 0; i < getRow(); i++) {
+            for (int j = 0; j < getCol(); j++) {
+                ret.setMat(i, j, getMat(i, j));
+            }
+        }
+        for (int i = 0; i < getRow(); i++) {
+            for (int j = 0; j < X.getCol(); j++) {
+                ret.setMat(i, getCol() + j, X.getMat(i, j));
+            }
+        }
+        return ret;
     }
 }
