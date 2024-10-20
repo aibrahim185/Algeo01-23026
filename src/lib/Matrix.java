@@ -451,43 +451,46 @@ public class Matrix {
 
     /* *** Determinan *** */
     public double determinanReduksiBaris() {
-        Matrix temp = new Matrix(getRow(), getCol());
-    
-        // copy matrix 
+        // modifikasi gaussElimination();
+
+        double determinant = 1;
+        int satuUtama = 0;
         for (int i = 0; i < getRow(); i++) {
-            for (int j = 0; j < getCol(); j++) {
-                temp.setMat(i, j, getMat(i, j));
-            }
-        }
-    
-        // swap baris 
-        double swapCount = 0;
-        for (int i = 0; i < getRow() - 1; i++) {
-            if (temp.getMat(i, 0) == 0) {
-                temp.swapRow(i, i + 1);
-                swapCount++;
-            }
-        }
-    
-        // reduksi baris
-        for (int i = 0; i < getRow() - 1; i++) {
-            for (int j = i + 1; j < getRow(); j++) {
-                double pivot = temp.getMat(i, i);
-                if (pivot == 0) continue;
-    
-                double factor = temp.getMat(j, i) / pivot;
-                for (int k = i; k < getCol(); k++) {
-                    temp.setMat(j, k, temp.getMat(j, k) - factor * temp.getMat(i, k));
+            if (satuUtama >= getCol()) break;
+
+            // jika elemen pada satuUtama = 0, cari baris lain untuk ditukar
+            if (getMat(i, satuUtama) == 0) {
+                for (int j = i + 1; j < getRow(); j++) {
+                    if (getMat(j, satuUtama) != 0) {
+                        swapRow(i, j);
+                        determinant *= -1;
+                        break;
+                    }
                 }
             }
+
+            // jika baris untuk ditukar tidak ditemukan, satuUtama bergeser ke kanan
+            if (getMat(i, satuUtama) == 0) {
+                satuUtama++; i--;
+                continue;
+            }
+
+            // membagi semua elemen pada baris supaya elemen pada satuUtama menjadi 1
+            determinant *= getMat(i, satuUtama);
+            divRow(i, getMat(i, satuUtama));
+            // mengurangi semua elemen di bawah satuUtama supaya menjadi 0
+            for (int j = i + 1; j < getRow(); j++){
+                addRow(j, i, -getMat(j, satuUtama));
+            }
+
+            satuUtama++;
         }
-    
-        double determinant = 1;
+
         for (int i = 0; i < getRow(); i++) {
-            determinant *= temp.getMat(i, i);
+            determinant *= getMat(i, i);
         }
-    
-        return determinant * Math.pow(-1, swapCount);
+        
+        return determinant;
     }
     
 
@@ -508,7 +511,7 @@ public class Matrix {
                     Matrix temp = cofactor(i,0);
                     // menambahkan ke hasil determinan
                     int sign = i%2==0 ? 1 : -1;
-                    ret += sign * getMat(0, i) * temp.determinanEkspansiKofaktor(); //rekursi sampai getRow() = 1;
+                    ret += sign * getMat(i, 0) * temp.determinanEkspansiKofaktor(); //rekursi sampai getRow() = 1;
                     break;
                 }
             }
