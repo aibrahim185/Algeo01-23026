@@ -1,6 +1,5 @@
 
 import java.util.Scanner;
-
 import lib.Matrix;
 
 public class Bicubic {
@@ -34,15 +33,15 @@ public class Bicubic {
 
     public static Matrix muli() {
         Matrix ret = new Matrix(16, 16);
-        for (int i = 0; i < 4; i++) {
-            for (int j = 0; j < 4; j++) {
-                for (int k = 0; k < 4; k++) {
-                    for (int l = 0; l < 4; l++) {
-                        ret.setMat(i * 4 + j, k * 4 + l, Math.pow(i - 1, k) * Math.pow(j - 1, l));
-                    }
-                }
-            }
-        }
+        // for (int i = 0; i < 4; i++) {
+        //     for (int j = 0; j < 4; j++) {
+        //         for (int k = 0; k < 4; k++) {
+        //             for (int l = 0; l < 4; l++) {
+        //                 ret.setMat(i * 4 + j, k * 4 + l, Math.pow(i - 1, k) * Math.pow(j - 1, l));
+        //             }
+        //         }
+        //     }
+        // }
         ret.print();
         ret.matBalikan();
         return ret;
@@ -50,13 +49,13 @@ public class Bicubic {
     
     public static void bicubicInterpolation(Matrix f, double tx, double ty) {
         Matrix a = muli().mulMatrix(f);
+        a.print();
 		double ans = 0;
 		for(int i = 0; i < 4; i++) {
             for(int j = 0; j < 4; j++) {
                 ans += a.getMat(i * 4 + j, 0) * Math.pow(tx, i) * Math.pow(ty, j);
 			}
 		}
-		muli().print();
 		System.out.println("f(" + tx + " , " + ty + ") = " + ans);
 	}
 }
