@@ -7,6 +7,7 @@
 <?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
@@ -47,6 +48,13 @@
                         <Font name="Monospaced Regular" size="14.0" />
                      </font>
                   </Button>
+                  <HBox alignment="CENTER_LEFT" prefHeight="34.0" prefWidth="200.0" spacing="10.0">
+                     <children>
+                        <Label text="File:" />
+                        <Button fx:id="inputBtn" mnemonicParsing="false" onAction="#inputFile" text="Input" />
+                        <Button fx:id="outputBtn" mnemonicParsing="false" onAction="#outputFile" text="Output" />
+                     </children>
+                  </HBox>
                </children>
                <BorderPane.margin>
                   <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
@@ -59,9 +67,9 @@
          <center>
             <VBox alignment="CENTER" BorderPane.alignment="CENTER">
                <children>
-                  <Label fx:id="jawaban" text="Jawaban">
+                  <Label fx:id="jawaban" alignment="CENTER" text="Jawaban" textAlignment="CENTER" wrapText="true">
                      <font>
-                        <Font name="Monospaced Regular" size="10.0" />
+                        <Font name="Monospaced Regular" size="40.0" />
                      </font>
                      <VBox.margin>
                         <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
@@ -80,7 +88,7 @@
       <Separator prefHeight="49.0" prefWidth="900.0" />
       <ButtonBar prefHeight="266.0" prefWidth="900.0">
         <buttons>
-            <Button fx:id="dashboard" onAction="#switchToSPL" prefHeight="746.0" text="Sistem Persamaan Linier" textAlignment="CENTER" wrapText="true">
+            <Button fx:id="dashboard" onAction="#switchToSPL" prefHeight="746.0" text="SPL" textAlignment="CENTER" wrapText="true">
                <font>
                   <Font name="Monospaced Regular" size="12.0" />
                </font>
@@ -90,17 +98,17 @@
                   <Font name="Monospaced Regular" size="12.0" />
                </font>
             </Button>
-            <Button fx:id="dashboard1" onAction="#switchToInvers" prefHeight="724.0" text="Matriks Balikan" textAlignment="CENTER">
+            <Button fx:id="dashboard1" onAction="#switchToInvers" prefHeight="724.0" text="Invers" textAlignment="CENTER">
                <font>
                   <Font name="Monospaced Regular" size="12.0" />
                </font>
             </Button>
-            <Button fx:id="dashboard2" onAction="#switchToPolinom" prefHeight="749.0" text="Interpolasi Polinom" textAlignment="CENTER" wrapText="true">
+            <Button fx:id="dashboard2" onAction="#switchToPolinom" prefHeight="749.0" text="I. Polinom" textAlignment="CENTER" wrapText="true">
                <font>
                   <Font name="Monospaced Regular" size="12.0" />
                </font>
             </Button>
-            <Button fx:id="dashboard3" onAction="#switchToBicubic" prefHeight="761.0" text="Interpolasi Bicubic Spline" textAlignment="CENTER" wrapText="true">
+            <Button fx:id="dashboard3" onAction="#switchToBicubic" prefHeight="761.0" text="I. Bicubic S." textAlignment="CENTER" wrapText="true">
                <font>
                   <Font name="Monospaced Regular" size="12.0" />
                </font>

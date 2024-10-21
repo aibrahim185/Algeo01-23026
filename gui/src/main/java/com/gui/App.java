@@ -22,7 +22,7 @@ public class App extends Application {
         Application.setUserAgentStylesheet(new PrimerLight().getUserAgentStylesheet());
         Application.setUserAgentStylesheet(new PrimerDark().getUserAgentStylesheet());
 
-        scene = new Scene(loadFXML("dashboard"), 640, 480);
+        scene = new Scene(loadFXML("dashboard"), 800, 800);
         stage.setScene(scene);
         stage.show();
     }

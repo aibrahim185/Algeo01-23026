@@ -1,5 +1,6 @@
 package com.gui;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.Scanner;
 import java.util.StringTokenizer;
@@ -11,21 +12,36 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
+import javafx.stage.FileChooser;
+import javafx.stage.Stage;
 
 public class RegresiController {
 
     @FXML
     private Button process;
+    @FXML
     private Label jawaban;
+    @FXML
     private TextArea input;
+    @FXML
+    private Button inputBtn;
+    @FXML
+    private Button outputBtn;
+    FileChooser fc = new FileChooser();
+    
+    public void inputFile() {
+        File inputFile = fc.showOpenDialog(new Stage());
+    }
 
+    public void outputFile() {
+        File outputFile = fc.showOpenDialog(new Stage());
+    }
+    
     public void initialize() {
         process.setOnAction(event -> processRegression());
-        // System.out.println("p");
     }
 
     private void processRegression() {
-        // System.out.println("q");
         String inputData = input.getText();
         if (inputData.isEmpty()) {
             jawaban.setText("Input tidak boleh kosong!");
@@ -62,17 +78,17 @@ public class RegresiController {
 
         sc = new Scanner(inputData);
 
-        Matrix X = new Matrix(m, n + 1); // Tambahkan kolom untuk konstanta 1
+        Matrix X = new Matrix(m, n + 1); 
         Matrix Y = new Matrix(m, 1);
 
         for (int i = 0; i < m; i++) {
-            X.setMat(i, 0, 1); // Kolom pertama diisi dengan 1 untuk regresi linier
+            X.setMat(i, 0, 1);
             for (int j = 1; j <= n; j++) {
                 double xVal = sc.nextDouble();
-                X.setMat(i, j, xVal); // Set nilai X
+                X.setMat(i, j, xVal); 
             }
             double yVal = sc.nextDouble();
-            Y.setMat(i, 0, yVal); // Set nilai Y
+            Y.setMat(i, 0, yVal); 
         }
         sc.close();
         return new Matrix[]{X, Y};
