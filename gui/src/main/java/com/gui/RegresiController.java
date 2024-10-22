@@ -1,6 +1,7 @@
 package com.gui;
 
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Scanner;
 import java.util.StringTokenizer;
@@ -27,11 +28,32 @@ public class RegresiController {
     
     public void inputFile() {
         File inputFile = fc.showOpenDialog(new Stage());
+        if (inputFile != null) {
+            try (Scanner sc = new Scanner(inputFile)) {
+                StringBuilder inputData = new StringBuilder();
+                while (sc.hasNextLine()) {
+                    inputData.append(sc.nextLine()).append("\n");
+                }
+                input.setText(inputData.toString()); // Mengisi TextArea dengan isi file
+            } catch (IOException e) {
+                jawaban.setText("Gagal membaca file: " + e.getMessage());
+            }
+        }
     }
 
     public void outputFile() {
-        File outputFile = fc.showOpenDialog(new Stage());
+        String outputText = jawaban.getText();
+        File outputFile = fc.showSaveDialog(new Stage());
+        if (outputFile != null) {
+            try (FileWriter writer = new FileWriter(outputFile)) {
+                writer.write(outputText); // Menulis hasil regresi ke file
+                jawaban.setText("Hasil regresi berhasil disimpan ke file.");
+            } catch (IOException e) {
+                jawaban.setText("Gagal menulis file: " + e.getMessage());
+            }
+        }
     }
+
     
     public void initialize() {
         process.setOnAction(event -> processRegression());

@@ -1,0 +1,2 @@
+Hasil regresi Linier: 0.9384342262229772
+Hasil regresi kuadratik: 0.9439083303751516
