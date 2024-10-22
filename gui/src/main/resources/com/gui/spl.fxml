@@ -25,7 +25,7 @@
                   <Separator prefHeight="49.0" prefWidth="900.0" />
                   <VBox alignment="CENTER" prefHeight="191.0" prefWidth="900.0">
                      <children>
-                        <Label text="Regresi">
+                        <Label text="SPL">
                            <font>
                               <Font name="Monospaced Regular" size="48.0" />
                            </font>
