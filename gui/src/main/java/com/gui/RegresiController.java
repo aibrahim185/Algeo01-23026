@@ -23,10 +23,6 @@ public class RegresiController {
     private Label jawaban;
     @FXML
     private TextArea input;
-    @FXML
-    private Button inputBtn;
-    @FXML
-    private Button outputBtn;
     FileChooser fc = new FileChooser();
     
     public void inputFile() {
@@ -120,7 +116,7 @@ public class RegresiController {
 
     @FXML
     private void switchToPolinom() throws IOException {
-        App.setRoot("interpolasiBicubic");
+        App.setRoot("interpolasiPolinom");
     }
 
     @FXML

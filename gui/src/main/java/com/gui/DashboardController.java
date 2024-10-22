@@ -3,9 +3,18 @@ package com.gui;
 import java.io.IOException;
 
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextArea;
 
 public class DashboardController {
 
+    @FXML
+    private Button process;
+    @FXML
+    private Label jawaban;
+    @FXML
+    private TextArea input;
     @FXML
     private void switchToSPL() throws IOException {
         App.setRoot("spl");
@@ -23,7 +32,7 @@ public class DashboardController {
 
     @FXML
     private void switchToPolinom() throws IOException {
-        App.setRoot("interpolasiBicubic");
+        App.setRoot("interpolasiPolinom");
     }
 
     @FXML
