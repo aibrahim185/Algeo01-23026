@@ -35,12 +35,17 @@ public class Matrix {
 		}
 	}
 
-    public void solutionInverseCramer(){
-        /* Print solusi SPL Inverse dan Cramer x1=... x2=... dst */
-        for (int i = 0; i<getRow(); i++){
-            System.out.print("x"+i+"=" +getMat(i, getCol()-1)+" ");
+    public String solutionInverseCramer() {
+        /* Mengembalikan solusi SPL Inverse dan Cramer x1=... x2=... dst */
+        StringBuilder result = new StringBuilder();
+        
+        for (int i = 0; i < getRow(); i++) {
+            result.append("x").append(i + 1).append(" = ").append(getMat(i, getCol() - 1)).append(" ");
         }
+    
+        return result.toString();
     }
+    
 
     public void read(Scanner sc) {
 		/* Membaca cebuah matrikc dari keyboard
@@ -523,31 +528,34 @@ public class Matrix {
         return ret;
     }
 
-    public void gaussSolution(){
+    public String gaussSolution() {
         /* I.S. Matriks augmented terdefinisi
-         * F.S. Menampilkan solusi SPL
+         * F.S. Mengembalikan string solusi SPL
          */
         gaussElimination();
+        StringBuilder result = new StringBuilder();
         String[] solution = new String[getCol()-1];
-        
+    
         Boolean[] visited = new Boolean[getCol()-1];
         char[] parametric = new char[getCol()-1];
         Integer[] satuUtama = new Integer[getRow()];
         Integer cur = 17;
+    
         for(int i = 0; i < getCol()-1; i++) {
             visited[i] = false;
             solution[i] = " ";
             parametric[i] = '?';
         }
+    
         Boolean tidakAdaSolusi = false;
         for (int i = getRow()-1 ; i >= 0 ; i--) {
             satuUtama[i] = 0;
             // mencari satuUtama baris i
             while (getMat(i, satuUtama[i]) == 0) {
                 satuUtama[i]++;
-                if(satuUtama[i]>getCol()-2) break; //satuUtama[i] = getCol()-1
+                if(satuUtama[i] > getCol()-2) break; //satuUtama[i] = getCol()-1
             }
-
+    
             // untuk baris dengan semua elemen bernilai 0
             if (satuUtama[i] == getCol()-1) { 
                 if(getMat(i, getCol()-1) != 0){
@@ -555,40 +563,40 @@ public class Matrix {
                     break;
                 }
                 //else, banyak solusi.
-            }
-            else{
+            } else {
                 visited[satuUtama[i]] = true; // satuUtama bukan parametrik
             }
         }
+    
         if(tidakAdaSolusi){
-            System.out.println("Tidak ada solusi");
-            return;
+            result.append("Tidak ada solusi\n");
+            return result.toString();
         }
-        for(int i = 0;i < getCol()-1; i++){
+    
+        for(int i = 0; i < getCol()-1; i++){
             if(!visited[i]){
                 parametric[i] = (char)(cur+97);
                 cur++;
             }
         }
+    
         for (int i = getRow()-1 ; i >= 0 ; i--) {
             if (satuUtama[i] != getCol()-1){
                 String tempsol = "";
                 for(int j = satuUtama[i]+1; j < getCol()-1; j++){
                     if(getMat(i, j) != 0){
                         if(!visited[j]){
-                            if(getMat(i, j)<0) {
+                            if(getMat(i, j) < 0) {
                                 tempsol += " + ";
-                                if(-1*getMat(i, j)!=1) tempsol += Double.toString(-1*getMat(i, j));
-                            }
-                            else {
+                                if(-1*getMat(i, j) != 1) tempsol += Double.toString(-1*getMat(i, j));
+                            } else {
                                 tempsol += " - ";
-                                if(getMat(i, j)!=1) tempsol += Double.toString(getMat(i, j));
+                                if(getMat(i, j) != 1) tempsol += Double.toString(getMat(i, j));
                             }
                             tempsol += parametric[j];
-                        }
-                        else{
+                        } else {
                             int r = 0;
-                            for(int k = 0; k<getRow(); k++){
+                            for(int k = 0; k < getRow(); k++){
                                 if(satuUtama[k] == j){
                                     r = k;
                                 }
@@ -598,46 +606,50 @@ public class Matrix {
                     }
                 }
                 double temp = getMat(i, getCol()-1);
-                solution[satuUtama[i]] = "x" + Integer.toString(satuUtama[i]+1) + " = " + Double.toString(temp);
-                solution[satuUtama[i]] += tempsol;
+                solution[satuUtama[i]] = "x" + (satuUtama[i] + 1) + " = " + temp + tempsol;
             }
         }
+    
         for(int i = 0; i < getCol()-1; i++){
             if(visited[i]){
-                solution[i] += "\n";
-                System.out.printf(solution[i]);
-            }
-            else{
-                System.out.printf("x%d = %c\n", i+1, parametric[i]);
+                result.append(solution[i]).append("\n");
+            } else {
+                result.append("x").append(i+1).append(" = ").append(parametric[i]).append("\n");
             }
         }
+    
+        return result.toString();
     }
+    
 
-    public void gaussJordanSolution(){
+    public String gaussJordanSolution() {
         /* I.S. Matriks augmented terdefinisi
-         * F.S. Menampilkan solusi SPL
+         * F.S. Mengembalikan string solusi SPL
          */
         jordanElimination();
+        StringBuilder result = new StringBuilder();
         String[] solution = new String[getCol()-1];
-        
+    
         Boolean[] visited = new Boolean[getCol()-1];
         char[] parametric = new char[getCol()-1];
         Integer[] satuUtama = new Integer[getRow()];
         Integer cur = 17;
+    
         for(int i = 0; i < getCol()-1; i++) {
             visited[i] = false;
             solution[i] = " ";
             parametric[i] = '?';
         }
+    
         Boolean tidakAdaSolusi = false;
         for (int i = getRow()-1 ; i >= 0 ; i--) {
             satuUtama[i] = 0;
             // mencari satuUtama baris i
             while (getMat(i, satuUtama[i]) == 0) {
                 satuUtama[i]++;
-                if(satuUtama[i]>getCol()-2) break; //satuUtama[i] = getCol()-1
+                if(satuUtama[i] > getCol()-2) break; // satuUtama[i] = getCol()-1
             }
-
+    
             // untuk baris dengan semua elemen bernilai 0
             if (satuUtama[i] == getCol()-1) { 
                 if(getMat(i, getCol()-1) != 0){
@@ -645,51 +657,53 @@ public class Matrix {
                     break;
                 }
                 //else, banyak solusi.
-            }
-            else{
+            } else {
                 visited[satuUtama[i]] = true; // satuUtama bukan parametrik
             }
         }
+    
         if(tidakAdaSolusi){
-            System.out.println("Tidak ada solusi");
-            return;
+            result.append("Tidak ada solusi\n");
+            return result.toString();
         }
-        for(int i = 0;i < getCol()-1; i++){
+    
+        for(int i = 0; i < getCol()-1; i++){
             if(!visited[i]){
                 parametric[i] = (char)(cur+97);
                 cur++;
             }
         }
+    
         for (int i = getRow()-1 ; i >= 0 ; i--) {
             if (satuUtama[i] != getCol()-1){
                 double temp = getMat(i, getCol()-1);
-                solution[satuUtama[i]] = "x" + Integer.toString(satuUtama[i]+1) + " = " + Double.toString(temp);
+                solution[satuUtama[i]] = "x" + (satuUtama[i] + 1) + " = " + temp;
                 for(int j = satuUtama[i]+1; j < getCol()-1; j++){
                     if(getMat(i, j) != 0){
-                        if(getMat(i, j)<0) {
+                        if(getMat(i, j) < 0) {
                             solution[satuUtama[i]] += " + ";
-                            if(-1*getMat(i, j)!=1) solution[satuUtama[i]] += Double.toString(-1*getMat(i, j));
-                        }
-                        else {
+                            if(-1 * getMat(i, j) != 1) solution[satuUtama[i]] += Double.toString(-1 * getMat(i, j));
+                        } else {
                             solution[satuUtama[i]] += " - ";
-                            if(getMat(i, j)!=1) solution[satuUtama[i]] += Double.toString(getMat(i, j));
+                            if(getMat(i, j) != 1) solution[satuUtama[i]] += Double.toString(getMat(i, j));
                         }
                         solution[satuUtama[i]] += parametric[j];
                     }
                 }
             }
         }
+    
         for(int i = 0; i < getCol()-1; i++){
             if(visited[i]){
-                solution[i] += "\n";
-                System.out.printf(solution[i]);
-            }
-            else{
-                System.out.printf("x%d = %c\n", i+1, parametric[i]);
+                result.append(solution[i]).append("\n");
+            } else {
+                result.append("x").append(i+1).append(" = ").append(parametric[i]).append("\n");
             }
         }
+    
+        return result.toString();
     }
-
+    
     public Matrix concat(Matrix X) {
         Matrix ret = new Matrix(getRow(), X.getCol() + getCol());
         for (int i = 0; i < getRow(); i++) {

@@ -35,15 +35,43 @@ public class Bicubic {
 
     public static Matrix muli() {
         Matrix ret = new Matrix(16, 16);
-        // for (int i = 0; i < 4; i++) {
-        //     for (int j = 0; j < 4; j++) {
-        //         for (int k = 0; k < 4; k++) {
-        //             for (int l = 0; l < 4; l++) {
-        //                 ret.setMat(i * 4 + j, k * 4 + l, Math.pow(i - 1, k) * Math.pow(j - 1, l));
-        //             }
-        //         }
-        //     }
-        // }
+        int x,y,powx,powy;
+        x = 0; y = 0; powx = 0; powy = 0;
+        for (int i = 0; i < 4; i++) {
+            if (i == 0) {
+                powx = 0;
+                powy = 0;
+            } else if (i == 1) {
+                powx = 0;
+                powy = 1;
+            } else if (i == 2) {
+                powx = 1;
+                powy = 0;
+            } else if (i == 3) {
+                powx = 1;
+                powy = 1;
+            }
+            for (int j = 0; j < 4; j++) {
+                if (j == 0) {
+                    x = 0;
+                    y = 0;
+                } else if (j == 1) {
+                    x = 0;
+                    y = 1;
+                } else if (j == 2) {
+                    x = 1;
+                    y = 0;
+                } else if (j == 3) {
+                    x = 1;
+                    y = 1;
+                }
+                for (int k = powx; k < 4; k++) {
+                    for (int l = powy; l < 4; l++) {
+                        ret.setMat(i * 4 + j, k * 4 + l, Math.pow(k,powx) * Math.pow(l,powy) * Math.pow(x, k-powx) * Math.pow(y, l-powy));
+                    }
+                }
+            }
+        }
         ret.print();
         ret.matBalikan();
         return ret;
