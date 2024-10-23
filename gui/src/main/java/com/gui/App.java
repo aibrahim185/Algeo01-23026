@@ -3,7 +3,6 @@ package com.gui;
 import java.io.IOException;
 
 import atlantafx.base.theme.PrimerDark;
-import atlantafx.base.theme.PrimerLight;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -19,10 +18,9 @@ public class App extends Application {
 
     @Override
     public void start(Stage stage) throws IOException {
-        Application.setUserAgentStylesheet(new PrimerLight().getUserAgentStylesheet());
         Application.setUserAgentStylesheet(new PrimerDark().getUserAgentStylesheet());
 
-        scene = new Scene(loadFXML("dashboard"), 800, 800);
+        scene = new Scene(loadFXML("dashboard"), 800, 780);
         stage.setScene(scene);
         stage.show();
     }
