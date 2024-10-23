@@ -133,7 +133,61 @@ public class Bicubic {
         ret.matBalikan();
         return ret;
     }    
-    
+    public static Matrix muliD() {
+        Matrix ret = new Matrix(16, 16);
+        int x,y;
+        x = 0; y = 0;
+        for (int i = 0; i < 4; i++) {
+            for (int j = 0; j < 4; j++) {
+                switch(j){
+                    case 0 -> {
+                        x = 0;
+                        y = 0;
+                    }
+                    case 1 -> {
+                        x = 1;
+                        y = 0;
+                    }
+                    case 2 -> {
+                        x = 0;
+                        y = 1;
+                    }
+                    case 3 -> {
+                        x = 1;
+                        y = 1;
+                    }
+                }
+                for (int k = -1; k < 3; k++) {
+                    for (int l = -1; l < 3; l++) {
+                        if(i==0){
+                            if((x==l)&&(y==k)) ret.setMat(i * 4 + j, (k+1) * 4 + l+1, 1);
+                            else ret.setMat(i * 4 + j, (k+1) * 4 + l+1, 0);
+                        }
+                        if(i==1){
+                            if((x+1==l)&&(y==k)) ret.setMat(i * 4 + j, (k+1) * 4 + l+1, 0.5);
+                            else if((x-1==l)&&(y==k)) ret.setMat(i * 4 + j, (k+1) * 4 + l+1, -0.5);
+                            else ret.setMat(i * 4 + j, (k+1) * 4 + l+1, 0);
+                        }
+                        if(i==2){
+                            if((x==l)&&(y+1==k)) ret.setMat(i * 4 + j, (k+1) * 4 + l+1, 0.5);
+                            else if((x==l)&&(y-1==k)) ret.setMat(i * 4 + j, (k+1) * 4 + l+1, -0.5);
+                            else ret.setMat(i * 4 + j, (k+1) * 4 + l+1, 0);
+                        }
+                        if(i==3){
+                            if((x+1==l)&&(y+1==k)) ret.setMat(i * 4 + j, (k+1) * 4 + l+1, 0.25);
+                            else if((x-1==l)&&(y==k)) ret.setMat(i * 4 + j, (k+1) * 4 + l+1, -0.25);
+                            else if((x==l)&&(y-1==k)) ret.setMat(i * 4 + j, (k+1) * 4 + l+1, -0.25);
+                            else if((x==l)&&(y==k)) ret.setMat(i * 4 + j, (k+1) * 4 + l+1, -0.25);
+                            else ret.setMat(i * 4 + j, (k+1) * 4 + l+1, 0);
+                        }
+                    }
+                }
+            }
+        }
+        // ret.print();
+        return ret;
+    }  
+
     public static void bicubicInterpolation(Matrix f, double tx, double ty) {
         Matrix a = muli().mulMatrix(f);
         // a.print();

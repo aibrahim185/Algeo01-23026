@@ -12,15 +12,15 @@ public class ImageProcessing {
         String src = sc.next();
         System.out.print("Masukkan nama file tujuan: ");
         String dest = sc.next();
-        System.out.print("Masukkan perbesaran lebar (int): ");
-        int w = sc.nextInt();
-        System.out.print("Masukkan perbesaran tinggi (int): ");
-        int h = sc.nextInt();
+        System.out.print("Masukkan perbesaran lebar: ");
+        double w = sc.nextDouble();
+        System.out.print("Masukkan perbesaran tinggi: ");
+        double h = sc.nextDouble();
 
         imageProcessing(src, dest, w, h);
     }
 
-    public static void imageProcessing(String sourceFile, String destFile, int w, int h) {
+    public static void imageProcessing(String sourceFile, String destFile, double w, double h) {
         BufferedImage img;
         File f;
 
@@ -33,10 +33,10 @@ public class ImageProcessing {
         }
 
         Matrix a = Bicubic.muli();
-
+        Matrix d = Bicubic.muliD();
         // Hitung ukuran gambar hasil setelah diperbesar
-        int newWidth = img.getWidth() * w;
-        int newHeight = img.getHeight() * h;
+        int newWidth = (int)(img.getWidth() * w);
+        int newHeight = (int)(img.getHeight() * h);
 
         BufferedImage imgZoom = new BufferedImage(newWidth, newHeight, BufferedImage.TYPE_INT_RGB);
         
@@ -54,9 +54,9 @@ public class ImageProcessing {
                 int y = (int) srcY;
 
                 // Siapkan matriks warna untuk interpolasi
-                Matrix mr = new Matrix(16, 1);
-                Matrix mg = new Matrix(16, 1);
-                Matrix mb = new Matrix(16, 1);
+                Matrix ir = new Matrix(16, 1);
+                Matrix ig = new Matrix(16, 1);
+                Matrix ib = new Matrix(16, 1);
 
                 int idx = 0;
                 for (int ii = x - 1; ii <= x + 2; ii++) {
@@ -65,13 +65,17 @@ public class ImageProcessing {
                         int idx_j = Math.max(Math.min(jj, img.getHeight() - 1), 0);
 
                         Color c = new Color(img.getRGB(idx_i, idx_j));
-                        mr.setMat(idx, 0, c.getRed());
-                        mg.setMat(idx, 0, c.getGreen());
-                        mb.setMat(idx, 0, c.getBlue());
+                        ir.setMat(idx, 0, c.getRed());
+                        ig.setMat(idx, 0, c.getGreen());
+                        ib.setMat(idx, 0, c.getBlue());
                         idx++;
                     }
                 }
-
+                // membangun persamaan f(x,y) dengan f(x,y) = DI, D adalah matriks 16x16 yang diberikan, dan I adalah nilai rgb gambar.
+                Matrix mr, mg, mb;
+                mr = d.mulMatrix(ir);
+                mg = d.mulMatrix(ig);
+                mb = d.mulMatrix(ib);
                 // Interpolasi warna untuk piksel yang diperbesar
                 Color c = new Color(
                         clamp((int) bicubic(mr, srcX - x, srcY - y, a), 0, 255),
