@@ -35,6 +35,17 @@ public class Matrix {
 		}
 	}
 
+    public String strMatrix() {
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < getRow(); i++) {
+            for (int j = 0; j < getCol(); j++) {
+                sb.append(String.format("%.2f", elmnt[i][j])).append(" ");
+            }
+            sb.append("\n");
+        }
+        return sb.toString();
+    }
+
     public String solutionInverseCramer() {
         /* Mengembalikan solusi SPL Inverse dan Cramer x1=... x2=... dst */
         StringBuilder result = new StringBuilder();

@@ -16,12 +16,10 @@ public class Invers {
             System.out.println("3. Kembali");
             System.out.print("Pilihan: ");
             
-            int metode = sc.nextInt();
-            if (metode == 1) {
-                m = m.inverse();
-            } else if (metode == 2) {
-                m.matBalikan();
-            }
+            Matrix mOBE = m.inverse();
+            mOBE.print();
+
+            m.matBalikan();
             m.print();
         }
     }
