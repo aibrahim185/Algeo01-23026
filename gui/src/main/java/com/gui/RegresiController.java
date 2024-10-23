@@ -34,7 +34,7 @@ public class RegresiController {
                 while (sc.hasNextLine()) {
                     inputData.append(sc.nextLine()).append("\n");
                 }
-                input.setText(inputData.toString()); // Mengisi TextArea dengan isi file
+                input.setText(inputData.toString()); 
             } catch (IOException e) {
                 jawaban.setText("Gagal membaca file: " + e.getMessage());
             }
@@ -46,7 +46,7 @@ public class RegresiController {
         File outputFile = fc.showSaveDialog(new Stage());
         if (outputFile != null) {
             try (FileWriter writer = new FileWriter(outputFile)) {
-                writer.write(outputText); // Menulis hasil regresi ke file
+                writer.write(outputText); 
                 jawaban.setText("Hasil regresi berhasil disimpan ke file.");
             } catch (IOException e) {
                 jawaban.setText("Gagal menulis file: " + e.getMessage());
@@ -76,7 +76,6 @@ public class RegresiController {
             double resultQuadratic = calculateQuadraticRegression(X, Y, XK, X.getCol() - 1);
     
             jawaban.setText("Hasil regresi Linier: " + resultLinier + "\nHasil regresi kuadratik: " + resultQuadratic);
-            // jawaban.setText("Hasil regresi Linier: " + resultLinier);
         } catch (Exception e) {
             jawaban.setText("Input tidak valid: " + e.getMessage());
         }
@@ -92,7 +91,7 @@ public class RegresiController {
     
         while (st.hasMoreTokens()) {
             String row = st.nextToken();
-            if (!st.hasMoreTokens()) break; // Pastikan baris terakhir adalah XK
+            if (!st.hasMoreTokens()) break; 
             StringTokenizer rowTokens = new StringTokenizer(row, " ");
             n = rowTokens.countTokens() - 1; 
             m++;
@@ -112,10 +111,7 @@ public class RegresiController {
             double yVal = sc.nextDouble();
             Y.setMat(i, 0, yVal); 
         }
-        // System.out.println(n);
-        // System.out.println(m);
         Y.print();
-        // Membaca nilai XK di baris terakhir
         Matrix XK = new Matrix(n + 1, 1);
         XK.setMat(0, 0, 1);
         for (int i = 1; i <= n; i++) {

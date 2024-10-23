@@ -33,7 +33,7 @@ public class SPLController {
                 while (sc.hasNextLine()) {
                     inputData.append(sc.nextLine()).append("\n");
                 }
-                input.setText(inputData.toString()); // Mengisi TextArea dengan isi file
+                input.setText(inputData.toString()); 
             } catch (IOException e) {
                 jawaban.setText("Gagal membaca file: " + e.getMessage());
             }
@@ -45,7 +45,7 @@ public class SPLController {
         File outputFile = fc.showSaveDialog(new Stage());
         if (outputFile != null) {
             try (FileWriter writer = new FileWriter(outputFile)) {
-                writer.write(outputText); // Menulis hasil SPL ke file
+                writer.write(outputText); 
                 jawaban.setText("Hasil SPL berhasil disimpan ke file.");
             } catch (IOException e) {
                 jawaban.setText("Gagal menulis file: " + e.getMessage());
