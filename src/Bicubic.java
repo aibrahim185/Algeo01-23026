@@ -1,21 +1,70 @@
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.Scanner;
 import lib.Matrix;
 
 public class Bicubic {
-    public static void driver(Scanner sc) {
-        System.out.println("Masukkan Matrix : 4x4");
-        Matrix X = new Matrix(4, 4);
-        for (int i = 0; i < 4; i++) {
-            for (int j = 0; j < 4; j++) {
-                double temp = sc.nextDouble();
-                X.setMat(i, j, temp);  
+    public static void driver(Scanner sc1) {
+        Scanner sc = new Scanner(System.in);
+        BufferedReader scFile = new BufferedReader(new InputStreamReader(System.in));
+        System.out.printf("1. Masukan dari keyboard\n2. Masukan dari file\nPilihan: ");
+        int choice = sc.nextInt();
+        while(choice != 1 && choice != 2){
+            System.out.printf("Masukan tidak valid! Silakan ulangi...\n");
+            choice = sc.nextInt();
+        }
+        Matrix flatMatrix = new Matrix(16, 1);
+        double a, b;
+        a = b = 0;
+        if(choice == 1){
+            System.out.println("Masukkan Matrix : 4x4");
+            Matrix X = new Matrix(4, 4);
+            for (int i = 0; i < 4; i++) {
+                for (int j = 0; j < 4; j++) {
+                    double temp = sc.nextDouble();
+                    X.setMat(i, j, temp);  
+                }
+            }
+            flatMatrix = flatten(X);
+            a = sc.nextDouble();
+            b = sc.nextDouble();
+        }
+        else{
+            Boolean found = false;
+            while(!found){
+                found = true;
+                String fileName = "";
+                System.out.printf("Masukkan nama file: ");
+                try{
+                    fileName = scFile.readLine();
+                }
+                catch(IOException err){
+                    // err.printStackTrace();
+                }
+                try{
+                    Scanner file = new Scanner(new File("../test/"+fileName));
+                    Matrix X = new Matrix(4, 4);
+                    for (int i = 0; i < 4; i++) {
+                        for (int j = 0; j < 4; j++) {
+                            double temp = file.nextDouble();
+                            X.setMat(i, j, temp);  
+                        }
+                    }
+                    flatMatrix = flatten(X);
+                    a = file.nextDouble();
+                    b = file.nextDouble();
+                    file.close();
+                }
+                catch(FileNotFoundException err){
+                    // err.printStackTrace();
+                    found = false;
+                }
             }
         }
-        Matrix flatMatrix = flatten(X);
-        double a, b;
-        a = sc.nextDouble();
-        b = sc.nextDouble();
         bicubicInterpolation(flatMatrix, a, b);
     }
     
@@ -33,7 +82,7 @@ public class Bicubic {
 
     public static Matrix muli() {
         Matrix ret = new Matrix(16, 16);
-        int x,y,powx,powy,temp;
+        int x,y,powx,powy;
         x = 0; y = 0; powx = 0; powy = 0;
         for (int i = 0; i < 4; i++) {
             switch(i){
@@ -80,14 +129,14 @@ public class Bicubic {
                 }
             }
         }
-        ret.print();
+        // ret.print();
         ret.matBalikan();
         return ret;
     }    
     
     public static void bicubicInterpolation(Matrix f, double tx, double ty) {
         Matrix a = muli().mulMatrix(f);
-        a.print();
+        // a.print();
 		double ans = 0;
 		for(int i = 0; i < 4; i++) {
             for(int j = 0; j < 4; j++) {

@@ -14,9 +14,9 @@ public class SPL {
 
         int metode = sc.nextInt();
         switch (metode) {
-            case 1 : m.gaussElimination();
-            case 2 : m.jordanElimination();
-            case 3 :
+            case 1 -> m.gaussSolution();
+            case 2 -> m.gaussJordanSolution();
+            case 3 -> {
                 if (m.determinanEkspansiKofaktor()!=0){
                     m = m.metodeBalikan(); // mengembalikan solusi SPL
                     m.solutionInverseCramer();
@@ -25,7 +25,8 @@ public class SPL {
                 else {
                     System.out.println("Matriks tidak dapat dicari dengan metode matriks balikan.");
                 }
-            case 4 : 
+            }
+            case 4 -> {
                 if (m.determinanReduksiBaris()!=0){
                     m = m.kaidahCramer(); // mengembalikan solusi SPL
                     m.solutionInverseCramer();
@@ -34,8 +35,9 @@ public class SPL {
                 else {
                     System.out.println("Matriks tidak dapat dicari dengan Kaidah Cramer");
                 }
+            }
         }
 
-        m.print();
+        // m.print();
 	}
 }
