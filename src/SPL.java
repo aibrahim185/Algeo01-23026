@@ -17,23 +17,23 @@ public class SPL {
             case 1 -> m.gaussSolution();
             case 2 -> m.gaussJordanSolution();
             case 3 -> {
-                if (m.determinanEkspansiKofaktor()!=0){
+                if (m.getCol()-1==m.getRow() && m.determinanEkspansiKofaktor()!=0){
                     m = m.metodeBalikan(); // mengembalikan solusi SPL
                     m.solutionInverseCramer();
                     System.out.println("");
                 }
                 else {
-                    System.out.println("Matriks tidak dapat dicari dengan metode matriks balikan.");
+                    System.out.println("Tidak dapat menggunakan metode matriks balikan");
                 }
             }
             case 4 -> {
-                if (m.determinanReduksiBaris()!=0){
+                if (m.getCol()-1==m.getRow() && m.determinanEkspansiKofaktor()!=0){
                     m = m.kaidahCramer(); // mengembalikan solusi SPL
                     m.solutionInverseCramer();
                     System.out.println("");
                 }
                 else {
-                    System.out.println("Matriks tidak dapat dicari dengan Kaidah Cramer");
+                    System.out.println("Tidak dapat menggunakan Kaidah Cramer");
                 }
             }
         }

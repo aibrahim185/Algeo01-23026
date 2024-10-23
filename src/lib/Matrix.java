@@ -35,13 +35,6 @@ public class Matrix {
 		}
 	}
 
-    public void solutionInverseCramer(){
-        /* Print solusi SPL Inverse dan Cramer x1=... x2=... dst */
-        for (int i = 0; i<getRow(); i++){
-            System.out.print("x"+i+"=" +getMat(i, getCol()-1)+" ");
-        }
-    }
-
     public void read(Scanner sc) {
 		/* Membaca cebuah matrikc dari keyboard
 		 * Dimulai dengan membaca jumlah baris dan jumlah kolom
@@ -110,6 +103,13 @@ public class Matrix {
                     found = false;
                 }
             }
+        }
+    }
+    
+    public void solutionInverseCramer(){
+        /* Print solusi SPL Inverse dan Cramer x1=... x2=... dst */
+        for (int i = 0; i<getRow(); i++){
+            System.out.println("x"+(i+1)+" = " +getMat(i, getCol()-1));
         }
     }
     
