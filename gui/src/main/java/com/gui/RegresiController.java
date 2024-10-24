@@ -70,16 +70,83 @@ public class RegresiController {
             Matrix[] matrices = parseMatrixInput(inputData);
             Matrix X = matrices[0];
             Matrix Y = matrices[1];
-            Matrix XK = matrices[2]; 
+            Matrix XK = matrices[2];
     
-            double resultLinier = calculateLinearRegression(X, Y, XK);
-            double resultQuadratic = calculateQuadraticRegression(X, Y, XK, X.getCol() - 1);
+            String resultLinier = calculateLinearRegression(X, Y, XK);
+            String resultQuadratic = calculateQuadraticRegression(X, Y, XK, X.getCol() - 1);
     
-            jawaban.setText("Hasil regresi Linier: " + resultLinier + "\nHasil regresi kuadratik: " + resultQuadratic);
+            jawaban.setText("Hasil regresi Linier: \n" + resultLinier + "\n\nHasil regresi Kuadratik: \n" + resultQuadratic);
         } catch (Exception e) {
             jawaban.setText("Input tidak valid: " + e.getMessage());
         }
     }
+    
+    private String calculateLinearRegression(Matrix X, Matrix Y, Matrix XK) {
+        Matrix resLinier = Regression.regresiLinier(X, Y);
+        double res = 0;
+        StringBuilder funcLinier = new StringBuilder("y = ");
+    
+        funcLinier.append(resLinier.getMat(0, 0)); 
+        res += resLinier.getMat(0, 0) * XK.getMat(0, 0);
+    
+        for (int i = 1; i < resLinier.getRow(); i++) {
+            double coef = resLinier.getMat(i, 0);
+            res += coef * XK.getMat(i, 0);
+    
+            if (coef >= 0) {
+                funcLinier.append(" + ").append(coef).append(" x").append(i);
+            } else {
+                funcLinier.append(" - ").append(Math.abs(coef)).append(" x").append(i);
+            }
+        }
+    
+        funcLinier.append("\nHasil: ").append(res);
+        return funcLinier.toString();
+    }
+    
+    private String calculateQuadraticRegression(Matrix X, Matrix Y, Matrix XK, int n) {
+        Matrix resKuadratik = Regression.regresiKuadratik(X, Y);
+        Matrix XK2 = new Matrix((n * (n - 1) / 2) + 1 + n + n, 1);
+        XK2.setMat(0, 0, 1);
+        int idx = 1;
+        for (int i = 1; i <= n; i++) {
+            XK2.setMat(idx, 0, XK.getMat(i, 0));
+            idx++;
+        }
+        for (int i = 1; i <= n; i++) {
+            XK2.setMat(idx, 0, Math.pow(XK.getMat(i, 0), 2));
+            idx++;
+        }
+        for (int i = 1; i <= n - 1; i++) {
+            for (int j = i + 1; j <= n; j++) {
+                XK2.setMat(idx, 0, XK.getMat(i, 0) * XK.getMat(j, 0));
+                idx++;
+            }
+        }
+    
+        double res = 0;
+        int sz = ((n * (n - 1) / 2) + 1 + n + n);
+        StringBuilder funcQuadratic = new StringBuilder("y = ");
+    
+        funcQuadratic.append(resKuadratik.getMat(0, 0)); // Constant c
+        res += resKuadratik.getMat(0, 0) * XK2.getMat(0, 0);
+    
+        for (int i = 1; i < sz; i++) {
+            double coef = resKuadratik.getMat(i, 0);
+            res += coef * XK2.getMat(i, 0);
+    
+            if (coef >= 0) {
+                funcQuadratic.append(" + ").append(coef).append(" x").append(i);
+            } else {
+                funcQuadratic.append(" - ").append(Math.abs(coef)).append(" x").append(i);
+            }
+        }
+    
+        funcQuadratic.append("\nHasil: ").append(res);
+        return funcQuadratic.toString();
+    }
+    
+    
 
     @SuppressWarnings("resource")
     private Matrix[] parseMatrixInput(String inputData) throws Exception {
@@ -122,42 +189,6 @@ public class RegresiController {
         return new Matrix[]{X, Y, XK};
     }
 
-    private double calculateLinearRegression(Matrix X, Matrix Y, Matrix XK) {
-        Matrix resLinier = Regression.regresiLinier(X, Y);
-        double res = 0;
-        for (int i = 0; i < resLinier.getRow(); i++) {
-            res += resLinier.getMat(i, 0) * XK.getMat(i, 0);
-        }
-        return res;
-    }
-
-    private double calculateQuadraticRegression(Matrix X, Matrix Y, Matrix XK, int n) {
-        Matrix resKuadratik = Regression.regresiKuadratik(X, Y);
-        Matrix XK2 = new Matrix((n * (n - 1) / 2) + 1 + n + n, 1);
-        XK2.setMat(0, 0, 1);
-        int idx = 1;
-        for (int i = 1; i <= n; i++) {
-            XK2.setMat(idx, 0, XK.getMat(i, 0));
-            idx++;
-        } 
-        for (int i = 1; i <= n; i++) {
-            XK2.setMat(idx, 0, Math.pow(XK.getMat(i, 0), 2));
-            idx++;
-        } 
-        for (int i = 1; i <= n - 1; i++) {
-            for (int j = i + 1; j <= n; j++) {
-                XK2.setMat(idx, 0, XK.getMat(i, 0) * XK.getMat(j, 0));
-                idx++;
-            }
-        } 
-        double res = 0;
-        int sz = ((n * (n - 1) / 2) + 1 + n + n);
-        System.out.println(sz);
-        for (int i = 0; i < sz; i++) {
-            res += resKuadratik.getMat(i, 0) * XK2.getMat(i, 0);
-        }
-        return res;
-    }
 
     @FXML
     private void switchToSPL() throws IOException {

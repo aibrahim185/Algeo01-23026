@@ -69,7 +69,7 @@
                <children>
                   <Label fx:id="jawaban" alignment="CENTER" text="Jawaban" textAlignment="CENTER" wrapText="true">
                      <font>
-                        <Font name="Monospaced Regular" size="40.0" />
+                        <Font name="Monospaced Regular" size="14.0" />
                      </font>
                      <VBox.margin>
                         <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
