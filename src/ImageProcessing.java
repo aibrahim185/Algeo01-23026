@@ -3,7 +3,9 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.Scanner;
+
 import javax.imageio.ImageIO;
+
 import lib.Matrix;
 
 public class ImageProcessing {

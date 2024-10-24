@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ButtonBar?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" spacing="20.0" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.gui.DashboardController">
+    <children>
+      <BorderPane prefHeight="644.0" prefWidth="900.0">
+         <top>
+            <VBox alignment="CENTER" prefHeight="146.0" prefWidth="900.0" BorderPane.alignment="CENTER">
+               <children>
+                  <Label text="Mboten Ngertos">
+                     <font>
+                        <Font name="Monospaced Regular" size="32.0" />
+                     </font>
+                  </Label>
+               </children>
+            </VBox>
+         </top>
+         <center>
+            <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
+               <children>
+                  <HBox alignment="CENTER" prefHeight="318.0" prefWidth="900.0">
+                     <children>
+                        <Label text="made with love &lt;3">
+                           <font>
+                              <Font name="Monospaced Regular" size="15.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </HBox>
+               </children>
+            </VBox>
+         </center>
+      </BorderPane>
+      <Separator prefHeight="49.0" prefWidth="900.0" />
+      <ButtonBar prefHeight="266.0" prefWidth="900.0" VBox.vgrow="ALWAYS">
+        <buttons>
+            <Button fx:id="dashboard" onAction="#switchToImage" prefHeight="746.0" text="Image Resizer" textAlignment="CENTER" wrapText="true">
+               <font>
+                  <Font name="Monospaced Regular" size="12.0" />
+               </font>
+            </Button>
+            <Button fx:id="dashboard" onAction="#switchToSPL" prefHeight="746.0" text="SPL" textAlignment="CENTER" wrapText="true">
+               <font>
+                  <Font name="Monospaced Regular" size="12.0" />
+               </font>
+            </Button>
+              <Button fx:id="dashboard" onAction="#switchToDeterminan" prefHeight="761.0" text="Determinan">
+               <font>
+                  <Font name="Monospaced Regular" size="12.0" />
+               </font>
+            </Button>
+            <Button fx:id="dashboard1" onAction="#switchToInvers" prefHeight="724.0" text="Invers" textAlignment="CENTER">
+               <font>
+                  <Font name="Monospaced Regular" size="12.0" />
+               </font>
+            </Button>
+            <Button fx:id="dashboard2" onAction="#switchToPolinom" prefHeight="749.0" text="I. Polinom" textAlignment="CENTER" wrapText="true">
+               <font>
+                  <Font name="Monospaced Regular" size="12.0" />
+               </font>
+            </Button>
+            <Button fx:id="dashboard3" onAction="#switchToBicubic" prefHeight="761.0" text="I. Bicubic S." textAlignment="CENTER" wrapText="true">
+               <font>
+                  <Font name="Monospaced Regular" size="12.0" />
+               </font>
+            </Button>
+            <Button fx:id="dashboard4" onAction="#switchToRegresi" prefHeight="745.0" text="Regresi" textAlignment="CENTER" wrapText="true">
+               <font>
+                  <Font name="Monospaced Regular" size="12.0" />
+               </font>
+            </Button>
+        </buttons>
+         <padding>
+            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+         </padding>
+      </ButtonBar>
+      <Separator prefHeight="49.0" prefWidth="900.0" />
+    </children>
+</VBox>

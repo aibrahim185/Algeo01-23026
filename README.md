@@ -18,10 +18,7 @@
    ```
 2. Open folder "Algeo01-23026" in the terminal, then run:
    ```sh
-   cd src
-   javac -d ../bin Main.java
-   cd../bin
-   java Main
+   java --module-path ".\javafx-sdk-21.0.5\lib" --add-modules javafx.controls,javafx.fxml -jar "Algeo01-23026.jar"
    ```
 
 ## Built With
