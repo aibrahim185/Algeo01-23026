@@ -119,6 +119,11 @@ public class InversController {
     }
 
     @FXML
+    private void switchToImage() throws IOException {
+        App.setRoot("imageResizer");
+    }
+    
+    @FXML
     private void switchToSPL() throws IOException {
         App.setRoot("spl");
     }

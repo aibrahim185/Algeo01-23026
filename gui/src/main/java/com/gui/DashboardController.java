@@ -3,18 +3,14 @@ package com.gui;
 import java.io.IOException;
 
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextArea;
 
 public class DashboardController {
 
     @FXML
-    private Button process;
-    @FXML
-    private Label jawaban;
-    @FXML
-    private TextArea input;
+    private void switchToImage() throws IOException {
+        App.setRoot("imageResizer");
+    }
+    
     @FXML
     private void switchToSPL() throws IOException {
         App.setRoot("spl");

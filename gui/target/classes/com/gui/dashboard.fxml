@@ -43,6 +43,11 @@
       <Separator prefHeight="49.0" prefWidth="900.0" />
       <ButtonBar prefHeight="266.0" prefWidth="900.0" VBox.vgrow="ALWAYS">
         <buttons>
+            <Button fx:id="dashboard" onAction="#switchToImage" prefHeight="746.0" text="Image Resizer" textAlignment="CENTER" wrapText="true">
+               <font>
+                  <Font name="Monospaced Regular" size="12.0" />
+               </font>
+            </Button>
             <Button fx:id="dashboard" onAction="#switchToSPL" prefHeight="746.0" text="SPL" textAlignment="CENTER" wrapText="true">
                <font>
                   <Font name="Monospaced Regular" size="12.0" />
