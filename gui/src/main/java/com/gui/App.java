@@ -22,6 +22,10 @@ public class App extends Application {
 
         scene = new Scene(loadFXML("dashboard"), 800, 780);
         stage.setScene(scene);
+        stage.setTitle("MAKO");
+        stage.setFullScreen(true);
+        stage.centerOnScreen();
+        // stage.getIcons().add(e);
         stage.show();
     }
 
