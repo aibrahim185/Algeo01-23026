@@ -77,15 +77,20 @@ public class Bicubic {
         return ret;
     }    
     
-    public static void bicubicInterpolation(Matrix f, double tx, double ty) {
-        Matrix a = muli().mulMatrix(f);
-        a.print();
-		double ans = 0;
-		for(int i = 0; i < 4; i++) {
-            for(int j = 0; j < 4; j++) {
+    public static String bicubicInterpolation(Matrix f, double tx, double ty) {
+        Matrix b = muli();
+        System.out.println("a");
+        Matrix a = b.mulMatrix(f);
+        System.out.println("b");
+        double ans = 0;
+    
+        for (int i = 0; i < 4; i++) {
+            for (int j = 0; j < 4; j++) {
                 ans += a.getMat(i * 4 + j, 0) * Math.pow(tx, i) * Math.pow(ty, j);
-			}
-		}
-		System.out.println("f(" + tx + " , " + ty + ") = " + ans);
-	}
+            }
+            System.out.println(ans);
+        }
+        return "f(" + tx + ", " + ty + ") = " + String.format("%.2f", ans);
+    }
+    
 }

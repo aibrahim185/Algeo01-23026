@@ -43,7 +43,7 @@
                         <Font name="Monospaced Regular" size="10.0" />
                      </font>
                   </TextArea>
-                  <Button fx:id="process" mnemonicParsing="false" text="Hitung">
+                  <Button fx:id="process" mnemonicParsing="false" onAction="#processInterpolation" text="Hitung">
                      <font>
                         <Font name="Monospaced Regular" size="14.0" />
                      </font>
